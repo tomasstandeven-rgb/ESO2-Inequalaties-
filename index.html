@@ -1,0 +1,1816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Solving Inequalities</title>
+
+  <style>
+    /* ============================================================
+      THEME TOKENS
+    ============================================================ */
+    :root {
+      --top-bar-bg: #34495e;
+      --bottom-bar-bg: #2c3e50;
+      --page-bg: #f7f4e9;
+
+      --card-bg: #ffffff;
+      --card-border: #1f7ed0;
+
+      --text-main: #1f2933;
+      --text-muted: #ecf0f1;
+
+      --pill-blue: #3498db;
+      --pill-green: #27ae60;
+      --pill-red: #e74c3c;
+      --pill-purple: #8e44ad;
+      --pill-yellow: #f1c40f;
+      --pill-orange: #e67e22;
+
+      --toolbar-icon-bg: #f1c40f;
+      --toolbar-icon-border: #e0a708;
+
+      --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.12);
+      --radius-card: 18px;
+      --radius-pill: 999px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--page-bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ============================================================
+      TOP BAR
+    ============================================================ */
+    .top-bar {
+      background: var(--top-bar-bg);
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px;
+      font-size: 14px;
+    }
+    .top-left { display: flex; flex-direction: column; gap: 6px; }
+    .meta-row { display: flex; align-items: baseline; gap: 6px; }
+    .meta-label { font-weight: 600; opacity: 0.9; }
+    .meta-value {
+      border-bottom: 2px solid rgba(236, 240, 241, 0.7);
+      padding-bottom: 2px;
+      font-weight: 500;
+    }
+    .top-right { display: flex; align-items: center; gap: 18px; font-weight: 500; }
+    .page-info { white-space: nowrap; }
+
+    .slide-select-wrapper { position: relative; }
+    .slide-select {
+      padding: 6px 28px 6px 10px;
+      border-radius: 6px;
+      border: none;
+      font-size: 13px;
+      font-weight: 500;
+      outline: none;
+      background: #ffffff;
+      color: #333;
+      appearance: none;
+    }
+    .slide-select-wrapper::after {
+      content: "▾";
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 10px;
+      pointer-events: none;
+      color: #555;
+    }
+
+    /* ============================================================
+      MAIN CONTENT AREA
+    ============================================================ */
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 40px 24px 40px;
+      gap: 18px;
+      position: relative;
+    }
+
+    /* ============================================================
+      CARD COMPONENT
+    ============================================================ */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-card);
+      border: 3px solid var(--card-border);
+      box-shadow: var(--shadow-soft);
+      max-width: 900px;
+      width: 100%;
+      padding: 26px 34px 30px;
+    }
+
+    .card h1 {
+      font-size: 30px;
+      margin-bottom: 12px;
+      font-weight: 800;
+      color: #2c3e50;
+    }
+
+    .card p { font-size: 18px; line-height: 1.6; }
+
+    .example-card p { font-size: 16px; line-height: 1.55; }
+
+    .bullets {
+      margin-top: 8px;
+      padding-left: 18px;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+    .bullets li { margin: 6px 0; }
+
+    /* ============================================================
+      NEW: CORE KNOWLEDGE SPLIT LAYOUT
+    ============================================================ */
+    .core-knowledge-container {
+      max-width: 1100px;
+      width: 100%;
+      display: flex;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .core-left {
+      flex: 1;
+      background: var(--card-bg);
+      border-radius: var(--radius-card);
+      border: 3px solid var(--card-border);
+      box-shadow: var(--shadow-soft);
+      padding: 26px 34px 30px;
+    }
+
+    .core-left h1 {
+      font-size: 28px;
+      margin-bottom: 12px;
+      font-weight: 800;
+      color: #2c3e50;
+    }
+
+    .core-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .question-box {
+      background: var(--card-bg);
+      border-radius: var(--radius-card);
+      border: 3px solid #9b59b6;
+      box-shadow: var(--shadow-soft);
+      padding: 20px 28px;
+      flex: 0 0 auto;
+    }
+
+    .question-box h2 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    .question-content {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 36px;
+      line-height: 1.3;
+    }
+
+    .photo-upload-box {
+      background: var(--card-bg);
+      border-radius: var(--radius-card);
+      border: 3px solid #27ae60;
+      box-shadow: var(--shadow-soft);
+      padding: 20px 28px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 300px;
+    }
+
+    .photo-upload-box h3 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #2c3e50;
+      margin-bottom: 12px;
+    }
+
+    .photo-preview {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8f9fa;
+      border-radius: 12px;
+      border: 2px dashed #bdc3c7;
+      position: relative;
+      overflow: hidden;
+      min-height: 250px;
+    }
+
+    .photo-preview img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .photo-placeholder {
+      text-align: center;
+      color: #7f8c8d;
+      font-size: 16px;
+      padding: 20px;
+    }
+
+    .photo-controls {
+      margin-top: 12px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .upload-btn, .remove-btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      transition: transform 0.1s;
+    }
+
+    .upload-btn {
+      background: #3498db;
+      color: white;
+    }
+
+    .remove-btn {
+      background: #e74c3c;
+      color: white;
+    }
+
+    .upload-btn:hover, .remove-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .upload-btn:active, .remove-btn:active {
+      transform: translateY(0);
+    }
+
+    .hidden { display: none; }
+
+    /* ============================================================
+      MATH TYPOGRAPHY
+    ============================================================ */
+    .math { font-size: 52px; line-height: 1.25; }
+    .math i { font-style: italic; }
+    .math sup { font-size: 60%; vertical-align: super; }
+
+    .equation-line {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin: 22px 0;
+    }
+
+    /* ============================================================
+      QUESTION LABELS
+    ============================================================ */
+    .q-label {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: #2c3e50;
+      width: 44px;
+      text-align: right;
+      flex: 0 0 auto;
+    }
+
+    /* ============================================================
+      MINI-WHITEBOARD (2×2 GRID)
+    ============================================================ */
+    .questions-grid {
+      max-width: 900px;
+      width: 100%;
+      padding: 0 34px;
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 120px;
+      row-gap: 160px;
+      justify-items: start;
+    }
+
+    .q-block {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 52px;
+      line-height: 1.25;
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+    }
+
+    /* ============================================================
+      EXAMPLE SLIDES (ROW LAYOUT)
+    ============================================================ */
+    .questions-rows {
+      max-width: 900px;
+      width: 100%;
+      padding: 0 34px;
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 70px;
+    }
+
+    .q-row {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+    }
+
+    .q-content {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .q-main {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 52px;
+      line-height: 1.25;
+    }
+
+    .q-sub {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 34px;
+      line-height: 1.25;
+    }
+
+    .q-row.placeholder { opacity: 0; pointer-events: none; }
+
+    /* ============================================================
+      FINAL REVIEW SLIDE
+    ============================================================ */
+    .review-slide {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      margin-top: 6px;
+    }
+
+    .review-title {
+      border: 3px solid #f59e0b;
+      background: #fff7ed;
+      color: #c2410c;
+      font-size: 26px;
+      font-weight: 900;
+      padding: 14px 18px;
+      border-radius: 12px;
+      box-shadow: var(--shadow-soft);
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .review-box {
+      border: 3px solid #3b82f6;
+      background: #ffffff;
+      padding: 16px 18px;
+      border-radius: 12px;
+      font-size: 18px;
+      line-height: 1.5;
+      box-shadow: var(--shadow-soft);
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .review-box strong { font-weight: 900; }
+
+    .review-example {
+      margin-top: 8px;
+      text-align: center;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .apply-task {
+      border: 3px solid #16a34a;
+      background: #ecfdf5;
+      padding: 20px 18px;
+      border-radius: 14px;
+      box-shadow: var(--shadow-soft);
+      width: 100%;
+      max-width: 900px;
+      text-align: center;
+    }
+    .apply-task h2 {
+      color: #166534;
+      font-size: 32px;
+      margin-bottom: 8px;
+      font-weight: 900;
+    }
+    .apply-task p {
+      font-size: 20px;
+      color: #14532d;
+      font-weight: 700;
+    }
+
+    /* ============================================================
+      TIMER WIDGET
+    ============================================================ */
+    .timer-widget {
+      position: absolute;
+      left: 24px;
+      top: 110px;
+      width: 260px;
+      background: #111;
+      color: #fff;
+      border-radius: 14px;
+      padding: 18px 16px 16px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.18);
+      border: 3px solid #0ea5e9;
+      user-select: none;
+      z-index: 5;
+      cursor: grab;
+    }
+    .timer-widget:active { cursor: grabbing; }
+
+    .timer-display {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 48px;
+      letter-spacing: 2px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .timer-controls {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .timer-btn {
+      background: #2d9cdb;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    }
+    .timer-btn:active { transform: translateY(1px); }
+    .timer-inputs {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-weight: 700;
+    }
+    .timer-inputs label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+    }
+    .timer-inputs input {
+      width: 56px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 2px solid rgba(255,255,255,0.25);
+      outline: none;
+      font-weight: 800;
+      text-align: center;
+      background: #fff;
+      color: #111;
+    }
+
+    /* ============================================================
+      DRAWING CANVAS OVERLAY
+    ============================================================ */
+    #drawCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+      BOTTOM TOOLBAR - UPDATED STYLES
+    ============================================================ */
+    .toolbar {
+      background: var(--bottom-bar-bg);
+      color: var(--text-muted);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      flex-wrap: wrap;
+    }
+    .toolbar-left, .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tool-button, .pill-button {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font: inherit;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+    }
+    
+    /* NEW CIRCULAR PEN BUTTON STYLES */
+    .pen-circle {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+      transition: transform 0.1s;
+      border: 3px solid transparent;
+    }
+    
+    .pen-circle:hover {
+      transform: translateY(-2px);
+    }
+    
+    .pen-circle:active {
+      transform: translateY(0);
+    }
+    
+    .pen-circle.active {
+      border: 3px solid #ffffff;
+      box-shadow: 0 0 0 2px #f1c40f, 0 3px 8px rgba(0,0,0,0.3);
+    }
+    
+    /* Individual pen button colors */
+    #blackPenBtn {
+      background: #1a1a1a;
+    }
+    
+    #yellowPenBtn {
+      background: #f1c40f;
+    }
+    
+    #greenPenBtn {
+      background: #27ae60;
+    }
+    
+    #redPenBtn {
+      background: #e74c3c;
+    }
+    
+    #highlighterBtn {
+      background: #ffeb3b;
+    }
+    
+    #eraserBtn {
+      background: #ecf0f1;
+    }
+    
+    .tool-button {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #1f4b6f;
+      color: #ecf0f1;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
+    .tool-button.square-active {
+      width: 40px;
+      border-radius: 12px;
+      background: var(--toolbar-icon-bg);
+      color: #2c3e50;
+      border: 2px solid var(--toolbar-icon-border);
+      font-size: 18px;
+    }
+    .tool-button.disabled { opacity: 0.4; cursor: default; pointer-events: none; }
+
+    .pill-button {
+      padding: 7px 14px;
+      border-radius: var(--radius-pill);
+      font-weight: 700;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
+    .pill-blue { background: var(--pill-blue); color: #ecf0f1; }
+    .pill-red { background: var(--pill-red); color: #ffffff; }
+    .pill-purple { background: var(--pill-purple); color: #ecf0f1; }
+    .pill-green { background: var(--pill-green); color: #ecf0f1; }
+    .pill-orange { background: var(--pill-orange); color: #ffffff; }
+    .toolbar-spacer { flex: 1; }
+
+    .wrap-ans {
+      display: inline-block;
+      max-width: 540px;
+      vertical-align: top;
+    }
+
+    /* ============================================================
+      RESPONSIVE BEHAVIOR
+    ============================================================ */
+    @media (max-width: 1100px) {
+      .core-knowledge-container {
+        flex-direction: column;
+      }
+      
+      .core-right {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .timer-widget {
+        position: static;
+        width: 100%;
+        max-width: 360px;
+        margin-bottom: 14px;
+        cursor: default;
+      }
+      .questions-grid {
+        grid-template-columns: 1fr;
+        row-gap: 70px;
+        column-gap: 0;
+      }
+      .math, .q-block { font-size: 42px; }
+      .q-main { font-size: 42px; }
+      .q-sub { font-size: 30px; }
+    }
+  </style>
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(','\\)'], ['$', '$']] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+  <header class="top-bar">
+    <div class="top-left">
+      <div class="meta-row">
+        <span class="meta-label">Date:</span>
+        <span class="meta-value">26/01/2026</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Title:</span>
+        <span class="meta-value">Solving Inequalities</span>
+      </div>
+    </div>
+
+    <div class="top-right">
+      <span class="page-info" id="pageInfo">Slide 1 of 22</span>
+      <div class="slide-select-wrapper">
+        <select class="slide-select" id="slideSelect"></select>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+    <div id="timerWidget" class="timer-widget hidden">
+      <div id="timerDisplay" class="timer-display">01:00</div>
+      <div class="timer-controls">
+        <button id="timerStart" class="timer-btn">Start</button>
+        <button id="timerPause" class="timer-btn">Pause</button>
+        <button id="timerReset" class="timer-btn">Reset</button>
+      </div>
+      <div class="timer-inputs">
+        <label>Min: <input id="timerMin" type="number" min="0" max="999" value="1"></label>
+        <label>Sec: <input id="timerSec" type="number" min="0" max="59" value="0"></label>
+      </div>
+    </div>
+
+    <div id="slideMount" style="width:100%; display:flex; flex-direction:column; align-items:center; gap:18px;"></div>
+
+    <canvas id="drawCanvas"></canvas>
+  </main>
+
+  <footer class="toolbar">
+    <div class="toolbar-left">
+      <button id="fullscreenBtn" class="tool-button square-active">⤢</button>
+      <button id="prevBtn" class="tool-button disabled">←</button>
+      <button id="nextBtn" class="tool-button">→</button>
+
+      <!-- NEW CIRCULAR PEN BUTTONS -->
+      <button id="blackPenBtn" class="pen-circle" title="Black Pen">✏️</button>
+      <button id="yellowPenBtn" class="pen-circle" title="Yellow Pen">✏️</button>
+      <button id="greenPenBtn" class="pen-circle" title="Green Pen">✏️</button>
+      <button id="redPenBtn" class="pen-circle" title="Red Pen">✏️</button>
+      <button id="highlighterBtn" class="pen-circle" title="Yellow Highlighter">🖍️</button>
+      <button id="eraserBtn" class="pen-circle" title="Eraser">⚪</button>
+
+      <button id="penSizeBtn" class="pill-button pill-blue">Pen size: Medium ▾</button>
+      <button id="eraserSizeBtn" class="pill-button pill-blue">Eraser size: Medium ▾</button>
+      <button id="clearBtn" class="pill-button pill-red">Clear</button>
+    </div>
+
+    <div class="toolbar-spacer"></div>
+
+    <div class="toolbar-right">
+      <button id="editModeBtn" class="pill-button pill-orange">Edit Mode: OFF</button>
+      <button id="savePhotosBtn" class="pill-button pill-green hidden">💾 Save Photos</button>
+    </div>
+  </footer>
+
+  <script>
+    /* ============================================================
+      DOM HOOKS
+    ============================================================ */
+    const slideMount = document.getElementById('slideMount');
+    const slideSelect = document.getElementById('slideSelect');
+    const pageInfo = document.getElementById('pageInfo');
+
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    const timerWidget = document.getElementById('timerWidget');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const timerStartBtn = document.getElementById('timerStart');
+    const timerPauseBtn = document.getElementById('timerPause');
+    const timerResetBtn = document.getElementById('timerReset');
+    const timerMinInput = document.getElementById('timerMin');
+    const timerSecInput = document.getElementById('timerSec');
+
+    const editModeBtn = document.getElementById('editModeBtn');
+    const savePhotosBtn = document.getElementById('savePhotosBtn');
+
+    /* ============================================================
+      PHOTO MANAGEMENT SYSTEM
+    ============================================================ */
+    let editMode = false;
+    let slidePhotos = {}; // { slideIndex: base64ImageData }
+
+    const PHOTOS_STORAGE_KEY = 'slidePhotos_inequalities';
+
+    function loadPhotosFromStorage() {
+      try {
+        const saved = localStorage.getItem(PHOTOS_STORAGE_KEY);
+        if (saved) {
+          slidePhotos = JSON.parse(saved);
+        }
+      } catch (e) {
+        console.error('Error loading photos:', e);
+      }
+    }
+
+    function savePhotosToStorage() {
+      try {
+        localStorage.setItem(PHOTOS_STORAGE_KEY, JSON.stringify(slidePhotos));
+        alert('Photos saved successfully! ✓');
+      } catch (e) {
+        console.error('Error saving photos:', e);
+        alert('Error saving photos. Please try again.');
+      }
+    }
+
+    function toggleEditMode() {
+      editMode = !editMode;
+      editModeBtn.textContent = editMode ? 'Edit Mode: ON' : 'Edit Mode: OFF';
+      editModeBtn.style.background = editMode ? '#e67e22' : 'var(--pill-orange)';
+      
+      if (editMode) {
+        savePhotosBtn.classList.remove('hidden');
+      } else {
+        savePhotosBtn.classList.add('hidden');
+      }
+      
+      renderSlide();
+    }
+
+    editModeBtn.addEventListener('click', toggleEditMode);
+    savePhotosBtn.addEventListener('click', savePhotosToStorage);
+
+    function handlePhotoUpload(slideIndex) {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      
+      input.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          slidePhotos[slideIndex] = event.target.result;
+          renderSlide();
+        };
+        reader.readAsDataURL(file);
+      };
+      
+      input.click();
+    }
+
+    function handlePhotoRemove(slideIndex) {
+      if (confirm('Remove this photo?')) {
+        delete slidePhotos[slideIndex];
+        renderSlide();
+      }
+    }
+
+    function renderPhotoUploadBox(slideIndex) {
+      const hasPhoto = slidePhotos[slideIndex];
+      
+      return `
+        <div class="photo-upload-box">
+          <h3>Handwritten Example</h3>
+          <div class="photo-preview">
+            ${hasPhoto 
+              ? `<img src="${slidePhotos[slideIndex]}" alt="Handwritten example" />`
+              : `<div class="photo-placeholder">
+                   ${editMode 
+                     ? '📸 Click "Upload Photo" below to add your handwritten example' 
+                     : 'No photo uploaded yet'}
+                 </div>`
+            }
+          </div>
+          ${editMode ? `
+            <div class="photo-controls">
+              <button class="upload-btn" onclick="handlePhotoUpload(${slideIndex})">
+                ${hasPhoto ? 'Change Photo' : 'Upload Photo'}
+              </button>
+              ${hasPhoto ? `
+                <button class="remove-btn" onclick="handlePhotoRemove(${slideIndex})">
+                  Remove Photo
+                </button>
+              ` : ''}
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    // Make functions globally accessible
+    window.handlePhotoUpload = handlePhotoUpload;
+    window.handlePhotoRemove = handlePhotoRemove;
+
+    /* ============================================================
+      SLIDE TYPE LAYOUT HELPERS
+    ============================================================ */
+    function renderRowQuestions(items, opts = { forceCount: null }) {
+      const rows = [...items];
+
+      if (typeof opts.forceCount === "number") {
+        while (rows.length < opts.forceCount) rows.push({ label: "", mainHtml: "", subs: [], placeholder: true });
+        if (rows.length > opts.forceCount) rows.length = opts.forceCount;
+      }
+
+      return `
+        <section class="questions-rows">
+          ${rows.map(r => `
+            <div class="q-row ${r.placeholder ? "placeholder" : ""}">
+              <span class="q-label">${r.label || ""}</span>
+              <div class="q-content">
+                <div class="q-main"><span class="math">${r.mainHtml || ""}</span></div>
+                ${(r.subs || []).map(s => `
+                  <div class="q-sub"><span class="math" style="font-size:34px;">${s}</span></div>
+                `).join("")}
+              </div>
+            </div>
+          `).join("")}
+        </section>
+      `;
+    }
+
+    function renderMiniWhiteboard(items) {
+      const first4 = items.slice(0, 4);
+      return `
+        <section class="questions-grid">
+          ${first4.map(r => `
+            <div class="q-block">
+              <span class="q-label">${r.label}</span>
+              <span class="math">${r.exprHtml}</span>
+            </div>
+          `).join("")}
+        </section>
+      `;
+    }
+
+    function renderCoreKnowledgeSplit(slideIndex, title, bulletPoints, question, questionContent) {
+      return `
+        <section class="core-knowledge-container">
+          <div class="core-left">
+            <h1>${title}</h1>
+            <ul class="bullets">
+              ${bulletPoints.map(bullet => `<li>${bullet}</li>`).join('')}
+            </ul>
+          </div>
+          
+          <div class="core-right">
+            <div class="question-box">
+              <h2>${question}</h2>
+              <div class="question-content">
+                <span class="math">${questionContent}</span>
+              </div>
+            </div>
+            
+            ${renderPhotoUploadBox(slideIndex)}
+          </div>
+        </section>
+      `;
+    }
+
+    /* ============================================================
+      SLIDE DECK DATA
+    ============================================================ */
+    const slides = [
+      // Slide 1: Core Knowledge – Representing Inequalities
+      {
+        timer: null,
+        render: () => renderCoreKnowledgeSplit(
+          0,
+          'Core Knowledge: Representing Inequalities',
+          [
+            'Inequalities describe a range of possible values for a variable rather than a single fixed value.',
+            'Symbols: \\(>\\) (Greater than), \\(<\\) (Less than), \\(\\ge\\) (Greater than or equal to), \\(\\le\\) (Less than or equal to).',
+            'Number Lines: Use an open circle (○) for strict inequalities (\\(<\\) or \\(>\\)). Use a closed circle (●) for inclusive inequalities (\\(\\le\\) or \\(\\ge\\)).'
+          ],
+          'Worked Example',
+          'Represent \\(x > -2\\) on a number line.'
+        )
+      },
+
+      // Slide 2: Example – Number Lines
+      {
+        timer: null,
+        render: () => `
+          <section class="card example-card">
+            <h1>Examples</h1>
+            <p>Represent the following on a number line.</p>
+          </section>
+
+          ${renderRowQuestions(
+            [
+              { label: "a)", mainHtml: `\\(x \\le 3\\)` },
+              { label: "", mainHtml: "", placeholder: true },
+              { label: "b)", mainHtml: `\\(x > -1\\)` },
+              { label: "", mainHtml: "", placeholder: true }
+            ],
+            { forceCount: 4 }
+          )}
+        `
+      },
+
+      // Slide 3: Mini Whiteboards
+      {
+        timer: { min: 1, sec: 0 },
+        render: () => `
+          <section class="card example-card">
+            <h1>Mini Whiteboards</h1>
+            <p><strong>On your whiteboards, represent the following on a number line.</strong></p>
+          </section>
+
+          ${renderMiniWhiteboard([
+            { label: "1.", exprHtml: `\\(x < 5\\)` },
+            { label: "2.", exprHtml: `\\(x \\ge -2\\)` },
+            { label: "3.", exprHtml: `\\(x \\le 0\\)` },
+            { label: "4.", exprHtml: `\\(x > 4\\)` }
+          ])}
+        `
+      },
+
+      // Slide 4: Core Knowledge – One-Step Inequalities
+      {
+        timer: null,
+        render: () => renderCoreKnowledgeSplit(
+          3,
+          'Core Knowledge: One-Step Inequalities',
+          [
+            'To solve an inequality, isolate the variable by performing the inverse operation on both sides.',
+            'The solution represents the range of values that make the inequality true.'
+          ],
+          'Worked Example',
+          '\\(\\begin{aligned} x + 4 &> 9 \\\\ x &> 9 - 4 \\\\ x &> 5 \\end{aligned}\\)'
+        )
+      },
+
+      // Slide 5: Example – One-Step Inequalities
+      {
+        timer: null,
+        render: () => `
+          <section class="card example-card">
+            <h1>Examples</h1>
+            <p>Solve the following inequalities.</p>
+          </section>
+
+          ${renderRowQuestions(
+            [
+              { label: "a)", mainHtml: `\\(x - 3 < 2\\)` },
+              { label: "", mainHtml: "", placeholder: true },
+              { label: "b)", mainHtml: `\\(5x \\ge 15\\)` },
+              { label: "", mainHtml: "", placeholder: true }
+            ],
+            { forceCount: 4 }
+          )}
+        `
+      },
+
+      // Slide 6: Mini Whiteboards
+      {
+        timer: { min: 1, sec: 0 },
+        render: () => `
+          <section class="card example-card">
+            <h1>Mini Whiteboards</h1>
+            <p><strong>On your whiteboards, solve the following.</strong></p>
+          </section>
+
+          ${renderMiniWhiteboard([
+            { label: "1.", exprHtml: `\\(2x \\le 14\\)` },
+            { label: "2.", exprHtml: `\\(8x < 16\\)` },
+            { label: "3.", exprHtml: `\\(\\frac{x}{3} > 4\\)` },
+            { label: "4.", exprHtml: `\\(x + 6 \\ge 4\\)` }
+          ])}
+        `
+      },
+
+      // Slide 7: Core Knowledge – Two-Step Inequalities
+      {
+        timer: null,
+        render: () => renderCoreKnowledgeSplit(
+          6,
+          'Core Knowledge: Two-Step Inequalities',
+          [
+            'Use inverse operations in reverse BIDMAS order.',
+            'First, add or subtract the constant term.',
+            'Second, multiply or divide to solve for \\(x\\).'
+          ],
+          'Worked Example',
+          '\\(\\begin{aligned} 2x + 1 &\\le 9 \\\\ 2x &\\le 8 \\\\ x &\\le 4 \\end{aligned}\\)'
+        )
+      },
+
+      // Slide 8: Example – Two-Step Inequalities
+      {
+        timer: null,
+        render: () => `
+          <section class="card example-card">
+            <h1>Examples</h1>
+            <p>Solve the following inequalities.</p>
+          </section>
+
+          ${renderRowQuestions(
+            [
+              { label: "a)", mainHtml: `\\(3x - 5 > 16\\)` },
+              { label: "", mainHtml: "", placeholder: true },
+              { label: "b)", mainHtml: `\\(4x + 8 < 32\\)` },
+              { label: "", mainHtml: "", placeholder: true }
+            ],
+            { forceCount: 4 }
+          )}
+        `
+      },
+
+      // Slide 9: Mini Whiteboards
+      {
+        timer: { min: 1, sec: 0 },
+        render: () => `
+          <section class="card example-card">
+            <h1>Mini Whiteboards</h1>
+            <p><strong>On your whiteboards, solve the following.</strong></p>
+          </section>
+
+          ${renderMiniWhiteboard([
+            { label: "1.", exprHtml: `\\(5x - 2 \\ge 68\\)` },
+            { label: "2.", exprHtml: `\\(4x + 7 < 11\\)` },
+            { label: "3.", exprHtml: `\\(3x - 2 \\ge 10\\)` },
+            { label: "4.", exprHtml: `\\(2x + 5 \\le 17\\)` }
+          ])}
+        `
+      },
+
+      // Slide 10: Core Knowledge – Fractional Inequalities
+      {
+        timer: null,
+        render: () => renderCoreKnowledgeSplit(
+          9,
+          'Core Knowledge: Fractional Inequalities',
+          [
+            'If the entire expression is over a denominator, multiply both sides by that denominator first.',
+            'If only the variable is part of a fraction, isolate the fractional term before multiplying.'
+          ],
+          'Worked Example',
+          '\\(\\begin{aligned} \\frac{x+18}{4} &\\le 5 \\\\ x + 18 &\\le 20 \\\\ x &\\le 2 \\end{aligned}\\)'
+        )
+      },
+
+      // Slide 11: Example – Fractional Inequalities
+      {
+        timer: null,
+        render: () => `
+          <section class="card example-card">
+            <h1>Examples</h1>
+            <p>Solve the following inequalities.</p>
+          </section>
+
+          ${renderRowQuestions(
+            [
+              { label: "a)", mainHtml: `\\(\\frac{x}{2} + 1 \\le 5\\)` },
+              { label: "", mainHtml: "", placeholder: true },
+              { label: "b)", mainHtml: `\\(\\frac{x+3}{2} \\ge 5\\)` },
+              { label: "", mainHtml: "", placeholder: true }
+            ],
+            { forceCount: 4 }
+          )}
+        `
+      },
+
+      // Slide 12: Mini Whiteboards
+      {
+        timer: { min: 1, sec: 0 },
+        render: () => `
+          <section class="card example-card">
+            <h1>Mini Whiteboards</h1>
+            <p><strong>On your whiteboards, solve the following.</strong></p>
+          </section>
+
+          ${renderMiniWhiteboard([
+            { label: "1.", exprHtml: `\\(\\frac{9}{x} - 6 > 4\\)` },
+            { label: "2.", exprHtml: `\\(\\frac{4x-5}{1} > 2\\)` },
+            { label: "3.", exprHtml: `\\(\\frac{x}{2} - 3 > 0\\)` },
+            { label: "4.", exprHtml: `\\(\\frac{x+4}{3} \\le 6\\)` }
+          ])}
+        `
+      },
+
+      // Slide 13: Core Knowledge – Single Brackets
+      {
+        timer: null,
+        render: () => renderCoreKnowledgeSplit(
+          12,
+          'Core Knowledge: Single Brackets',
+          [
+            'Expand the brackets first by multiplying the term outside by every term inside.',
+            'Solve the resulting inequality using standard two-step methods.'
+          ],
+          'Worked Example',
+          '\\(\\begin{aligned} 5(x - 3) &\\ge 40 \\\\ 5x - 15 &\\ge 40 \\\\ 5x &\\ge 55 \\\\ x &\\ge 11 \\end{aligned}\\)'
+        )
+      },
+
+      // Slide 14: Example – Single Brackets
+      {
+        timer: null,
+        render: () => `
+          <section class="card example-card">
+            <h1>Examples</h1>
+            <p>Solve the following inequalities.</p>
+          </section>
+
+          ${renderRowQuestions(
+            [
+              { label: "a)", mainHtml: `\\(6(x + 2) < 42\\)` },
+              { label: "", mainHtml: "", placeholder: true },
+              { label: "b)", mainHtml: `\\(2(5x + 1) \\le 36\\)` },
+              { label: "", mainHtml: "", placeholder: true }
+            ],
+            { forceCount: 4 }
+          )}
+        `
+      },
+
+      // Slide 15: Mini Whiteboards
+      {
+        timer: { min: 1, sec: 0 },
+        render: () => `
+          <section class="card example-card">
+            <h1>Mini Whiteboards</h1>
+            <p><strong>On your whiteboards, solve the following.</strong></p>
+          </section>
+
+          ${renderMiniWhiteboard([
+            { label: "1.", exprHtml: `\\(4(x - 2) < 18\\)` },
+            { label: "2.", exprHtml: `\\(2(2x - 9) \\ge 22\\)` },
+            { label: "3.", exprHtml: `\\(3(2x + 7) \\le 9\\)` },
+            { label: "4.", exprHtml: `\\(5(x + 1) > 25\\)` }
+          ])}
+        `
+      },
+
+      // Slide 16: Core Knowledge – Variables on Both Sides
+      {
+        timer: null,
+        render: () => renderCoreKnowledgeSplit(
+          15,
+          'Core Knowledge: Variables on Both Sides',
+          [
+            'Collect all terms involving \\(x\\) on one side (the side with the higher coefficient).',
+            'Collect all constant terms on the opposite side.'
+          ],
+          'Worked Example',
+          '\\(\\begin{aligned} 4x + 3 &> 2x + 11 \\\\ 2x + 3 &> 11 \\\\ 2x &> 8 \\\\ x &> 4 \\end{aligned}\\)'
+        )
+      },
+
+      // Slide 17: Example – Variables on Both Sides
+      {
+        timer: null,
+        render: () => `
+          <section class="card example-card">
+            <h1>Examples</h1>
+            <p>Solve the following inequalities.</p>
+          </section>
+
+          ${renderRowQuestions(
+            [
+              { label: "a)", mainHtml: `\\(13x - 12 < 3x + 13\\)` },
+              { label: "", mainHtml: "", placeholder: true },
+              { label: "b)", mainHtml: `\\(7x - 5 \\ge 3x + 11\\)` },
+              { label: "", mainHtml: "", placeholder: true }
+            ],
+            { forceCount: 4 }
+          )}
+        `
+      },
+
+      // Slide 18: Mini Whiteboards
+      {
+        timer: { min: 1, sec: 0 },
+        render: () => `
+          <section class="card example-card">
+            <h1>Mini Whiteboards</h1>
+            <p><strong>On your whiteboards, solve the following.</strong></p>
+          </section>
+
+          ${renderMiniWhiteboard([
+            { label: "1.", exprHtml: `\\(x + 1 \\ge 3x - 18\\)` },
+            { label: "2.", exprHtml: `\\(5x + 2 < 2x + 14\\)` },
+            { label: "3.", exprHtml: `\\(6x - 4 \\ge 4x + 10\\)` },
+            { label: "4.", exprHtml: `\\(8x - 1 \\le 3x + 24\\)` }
+          ])}
+        `
+      },
+
+      // Slide 19: Core Knowledge – Double Inequalities
+      {
+        timer: null,
+        render: () => renderCoreKnowledgeSplit(
+          18,
+          'Core Knowledge: Double Inequalities',
+          [
+            'A double inequality bounds a variable between two values.',
+            'Perform the same operation to all three parts of the inequality to isolate \\(x\\) in the middle.'
+          ],
+          'Worked Example',
+          '\\(\\begin{aligned} 9 &\\le 2x + 3 \\le 25 \\\\ 6 &\\le 2x \\le 22 \\\\ 3 &\\le x \\le 11 \\end{aligned}\\)'
+        )
+      },
+
+      // Slide 20: Example – Double Inequalities
+      {
+        timer: null,
+        render: () => `
+          <section class="card example-card">
+            <h1>Examples</h1>
+            <p>Solve the following inequalities.</p>
+          </section>
+
+          ${renderRowQuestions(
+            [
+              { label: "a)", mainHtml: `\\(6 < x + 3 < 10\\)` },
+              { label: "", mainHtml: "", placeholder: true },
+              { label: "b)", mainHtml: `\\(4 \\le 2x \\le 7\\)` },
+              { label: "", mainHtml: "", placeholder: true }
+            ],
+            { forceCount: 4 }
+          )}
+        `
+      },
+
+      // Slide 21: Mini Whiteboards
+      {
+        timer: { min: 1, sec: 0 },
+        render: () => `
+          <section class="card example-card">
+            <h1>Mini Whiteboards</h1>
+            <p><strong>On your whiteboards, solve the following.</strong></p>
+          </section>
+
+          ${renderMiniWhiteboard([
+            { label: "1.", exprHtml: `\\(1 \\le 3x < 9\\)` },
+            { label: "2.", exprHtml: `\\(4 < \\frac{5}{x} < 6\\)` },
+            { label: "3.", exprHtml: `\\(-3 \\le \\frac{x}{4} - 1 < 0\\)` },
+            { label: "4.", exprHtml: `\\(10 < 2x + 4 < 20\\)` }
+          ])}
+        `
+      },
+
+      // Slide 22: Final Review Slide
+      {
+        timer: null,
+        render: () => `
+          <section class="review-slide">
+            <div class="review-title">📝 Core Knowledge Review - Write in your books:</div>
+
+            <div class="review-box">
+              <strong>Representing Inequalities</strong><br>
+              Use an open circle (○) for strict inequalities (\\(<, >\\)) and a closed circle (●) for inclusive inequalities (\\(\\le, \\ge\\)) on a number line.
+              <div class="review-example">
+                Represent \\(x \\ge 1\\)<br>
+                Closed circle at 1, arrow to the right.
+              </div>
+            </div>
+
+            <div class="review-box">
+              <strong>Solving Inequalities</strong><br>
+              Solve by using inverse operations to isolate the variable. Expand brackets or clear denominators first if necessary.
+              <div class="review-example">
+                \\(\\begin{aligned}
+                  2x + 1 &\\le 9 \\\\
+                  2x &\\le 8 \\\\
+                  x &\\le 4
+                \\end{aligned}\\)
+              </div>
+            </div>
+
+            <div class="review-box">
+              <strong>Double Inequalities</strong><br>
+              Perform identical operations to all three parts of the expression to isolate the variable.
+              <div class="review-example">
+                \\(\\begin{aligned}
+                  6 < x + 3 &< 10 \\\\
+                  3 < x &< 7
+                \\end{aligned}\\)
+              </div>
+            </div>
+
+            <div class="apply-task">
+              <h2>Independent Apply Task</h2>
+              <p>Complete all questions on the worksheet, showing all working clearly.</p>
+            </div>
+          </section>
+        `
+      }
+    ];
+
+    /* ============================================================
+      SLIDE NAVIGATION STATE
+    ============================================================ */
+    const maxSlide = slides.length - 1;
+    let currentSlide = 0;
+
+    function buildDropdown() {
+      slideSelect.innerHTML = "";
+      slides.forEach((_, i) => {
+        const opt = document.createElement("option");
+        opt.value = String(i);
+        opt.textContent = `Slide ${i + 1}`;
+        slideSelect.appendChild(opt);
+      });
+    }
+    buildDropdown();
+
+    function updateNavUI() {
+      prevBtn.classList.toggle('disabled', currentSlide === 0);
+      nextBtn.classList.toggle('disabled', currentSlide === maxSlide);
+      pageInfo.textContent = `Slide ${currentSlide + 1} of ${maxSlide + 1}`;
+      slideSelect.value = String(currentSlide);
+    }
+
+    function renderSlide() {
+      const t = slides[currentSlide].timer;
+      if (t) {
+        timerWidget.classList.remove('hidden');
+        setTimerTo(t.min, t.sec);
+      } else {
+        timerWidget.classList.add('hidden');
+        pauseTimer();
+      }
+
+      slideMount.innerHTML = slides[currentSlide].render();
+      if (window.MathJax?.typesetPromise) MathJax.typesetPromise();
+      updateNavUI();
+      resizeCanvas();
+      restoreDrawingForSlide(currentSlide);
+    }
+
+    function changeSlideTo(target) {
+      if (target < 0 || target > maxSlide) return;
+      saveCurrentSlideDrawing();
+      currentSlide = target;
+      renderSlide();
+    }
+
+    prevBtn.addEventListener('click', () => changeSlideTo(currentSlide - 1));
+    nextBtn.addEventListener('click', () => changeSlideTo(currentSlide + 1));
+    slideSelect.addEventListener('change', (e) => changeSlideTo(parseInt(e.target.value, 10) || 0));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlideTo(currentSlide - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); changeSlideTo(currentSlide + 1); }
+    });
+
+    /* ============================================================
+      DRAWING SYSTEM - UPDATED WITH NEW PENS
+    ============================================================ */
+    const canvas = document.getElementById('drawCanvas');
+    const contentEl = document.querySelector('.content');
+    const ctx = canvas.getContext('2d');
+
+    const blackPenBtn = document.getElementById('blackPenBtn');
+    const yellowPenBtn = document.getElementById('yellowPenBtn');
+    const greenPenBtn = document.getElementById('greenPenBtn');
+    const redPenBtn = document.getElementById('redPenBtn');
+    const highlighterBtn = document.getElementById('highlighterBtn');
+    const eraserBtn = document.getElementById('eraserBtn');
+
+    const penSizeBtn = document.getElementById('penSizeBtn');
+    const eraserSizeBtn = document.getElementById('eraserSizeBtn');
+    const clearBtn = document.getElementById('clearBtn');
+
+    let drawingEnabled = false;
+    let isDrawing = false;
+    let currentTool = 'pen';
+    let currentColor = '#1a1a1a';
+
+    const slideDrawings = new Array(slides.length).fill(null);
+
+    const penSizes = [
+      { label: 'Small', value: 2 },
+      { label: 'Medium', value: 4 },
+      { label: 'Large', value: 8 }
+    ];
+    const eraserSizes = [
+      { label: 'Small', value: 10 },
+      { label: 'Medium', value: 20 },
+      { label: 'Large', value: 40 }
+    ];
+    const highlighterSize = 30; // Very large for highlighting over letters
+    
+    let penSizeIndex = 1;
+    let eraserSizeIndex = 1;
+
+    function currentPenSize() { return penSizes[penSizeIndex].value; }
+    function currentEraserSize() { return eraserSizes[eraserSizeIndex].value; }
+
+    function updateSizeLabels() {
+      penSizeBtn.textContent = `Pen size: ${penSizes[penSizeIndex].label} ▾`;
+      eraserSizeBtn.textContent = `Eraser size: ${eraserSizes[eraserSizeIndex].label} ▾`;
+    }
+    updateSizeLabels();
+
+    function enableDrawing(enable) {
+      drawingEnabled = enable;
+      canvas.style.pointerEvents = enable ? 'auto' : 'none';
+    }
+
+    function setActiveToolButton(btn) {
+      [blackPenBtn, yellowPenBtn, greenPenBtn, redPenBtn, highlighterBtn, eraserBtn].forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+    }
+
+    blackPenBtn.addEventListener('click', () => {
+      currentTool = 'pen';
+      currentColor = '#1a1a1a';
+      enableDrawing(true);
+      setActiveToolButton(blackPenBtn);
+    });
+
+    yellowPenBtn.addEventListener('click', () => {
+      currentTool = 'pen';
+      currentColor = '#f1c40f';
+      enableDrawing(true);
+      setActiveToolButton(yellowPenBtn);
+    });
+
+    greenPenBtn.addEventListener('click', () => {
+      currentTool = 'pen';
+      currentColor = '#27ae60';
+      enableDrawing(true);
+      setActiveToolButton(greenPenBtn);
+    });
+
+    redPenBtn.addEventListener('click', () => {
+      currentTool = 'pen';
+      currentColor = '#e74c3c';
+      enableDrawing(true);
+      setActiveToolButton(redPenBtn);
+    });
+
+    highlighterBtn.addEventListener('click', () => {
+      currentTool = 'highlighter';
+      currentColor = 'rgba(255, 235, 59, 0.4)'; // Semi-transparent yellow
+      enableDrawing(true);
+      setActiveToolButton(highlighterBtn);
+    });
+
+    eraserBtn.addEventListener('click', () => {
+      currentTool = 'eraser';
+      enableDrawing(true);
+      setActiveToolButton(eraserBtn);
+    });
+
+    penSizeBtn.addEventListener('click', () => {
+      penSizeIndex = (penSizeIndex + 1) % penSizes.length;
+      updateSizeLabels();
+    });
+
+    eraserSizeBtn.addEventListener('click', () => {
+      eraserSizeIndex = (eraserSizeIndex + 1) % eraserSizes.length;
+      updateSizeLabels();
+    });
+
+    clearBtn.addEventListener('click', () => {
+      clearCanvas();
+      slideDrawings[currentSlide] = null;
+    });
+
+    function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+
+    function saveCurrentSlideDrawing() {
+      slideDrawings[currentSlide] = canvas.toDataURL('image/png');
+    }
+
+    function restoreDrawingForSlide(index) {
+      ctx.globalCompositeOperation = 'source-over';
+      clearCanvas();
+      const dataUrl = slideDrawings[index];
+      if (!dataUrl) return;
+      const img = new Image();
+      img.onload = () => {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      };
+      img.src = dataUrl;
+    }
+
+    function resizeCanvas() {
+      const rect = contentEl.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      restoreDrawingForSlide(currentSlide);
+    }
+    window.addEventListener('resize', resizeCanvas);
+
+    function startDraw(x, y) {
+      if (!drawingEnabled) return;
+      isDrawing = true;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+    }
+
+    function drawLine(x, y) {
+      if (!isDrawing) return;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      if (currentTool === 'eraser') {
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.lineWidth = currentEraserSize();
+      } else if (currentTool === 'highlighter') {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.strokeStyle = currentColor;
+        ctx.lineWidth = highlighterSize;
+      } else {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.strokeStyle = currentColor;
+        ctx.lineWidth = currentPenSize();
+      }
+      ctx.lineTo(x, y);
+      ctx.stroke();
+    }
+
+    function stopDraw() {
+      if (!isDrawing) return;
+      isDrawing = false;
+      ctx.closePath();
+      saveCurrentSlideDrawing();
+    }
+
+    canvas.addEventListener('mousedown', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      startDraw(e.clientX - rect.left, e.clientY - rect.top);
+    });
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      drawLine(e.clientX - rect.left, e.clientY - rect.top);
+    });
+    canvas.addEventListener('mouseup', stopDraw);
+    canvas.addEventListener('mouseleave', stopDraw);
+
+    canvas.addEventListener('touchstart', (e) => {
+      const touch = e.touches[0];
+      const rect = canvas.getBoundingClientRect();
+      startDraw(touch.clientX - rect.left, touch.clientY - rect.top);
+      e.preventDefault();
+    }, { passive: false });
+
+    canvas.addEventListener('touchmove', (e) => {
+      const touch = e.touches[0];
+      const rect = canvas.getBoundingClientRect();
+      drawLine(touch.clientX - rect.left, touch.clientY - rect.top);
+      e.preventDefault();
+    }, { passive: false });
+
+    canvas.addEventListener('touchend', stopDraw);
+    canvas.addEventListener('touchcancel', stopDraw);
+
+    /* ============================================================
+      TIMER SYSTEM
+    ============================================================ */
+    let timerInterval = null;
+    let timerRemainingSeconds = 60;
+    let timerSetSeconds = 60;
+
+    function clamp(num, min, max) { return Math.min(max, Math.max(min, num)); }
+    function pad2(n) { return String(n).padStart(2, '0'); }
+
+    function renderTimer() {
+      const m = Math.floor(timerRemainingSeconds / 60);
+      const s = timerRemainingSeconds % 60;
+      timerDisplay.textContent = `${pad2(m)}:${pad2(s)}`;
+    }
+
+    function readInputsAsSeconds() {
+      const min = clamp(parseInt(timerMinInput.value, 10) || 0, 0, 999);
+      const sec = clamp(parseInt(timerSecInput.value, 10) || 0, 0, 59);
+      timerMinInput.value = String(min);
+      timerSecInput.value = String(sec);
+      return (min * 60) + sec;
+    }
+
+    function stopTimerInterval() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+
+    function startTimer() {
+      const inputSeconds = readInputsAsSeconds();
+      const shouldUseInputs =
+        timerRemainingSeconds === 0 ||
+        timerRemainingSeconds === timerSetSeconds;
+
+      if (shouldUseInputs) {
+        timerSetSeconds = inputSeconds || 0;
+        timerRemainingSeconds = timerSetSeconds;
+      }
+
+      stopTimerInterval();
+      timerInterval = setInterval(() => {
+        if (timerRemainingSeconds > 0) {
+          timerRemainingSeconds -= 1;
+          renderTimer();
+        } else {
+          stopTimerInterval();
+        }
+      }, 1000);
+
+      renderTimer();
+    }
+
+    function pauseTimer() { stopTimerInterval(); }
+
+    function resetTimer() {
+      stopTimerInterval();
+      timerRemainingSeconds = timerSetSeconds;
+      timerMinInput.value = String(Math.floor(timerSetSeconds / 60));
+      timerSecInput.value = String(timerSetSeconds % 60);
+      renderTimer();
+    }
+
+    function setTimerTo(min, sec) {
+      stopTimerInterval();
+      min = clamp(parseInt(min, 10) || 0, 0, 999);
+      sec = clamp(parseInt(sec, 10) || 0, 0, 59);
+
+      timerMinInput.value = String(min);
+      timerSecInput.value = String(sec);
+
+      timerSetSeconds = (min * 60) + sec;
+      timerRemainingSeconds = timerSetSeconds;
+      renderTimer();
+    }
+
+    timerStartBtn.addEventListener('click', startTimer);
+    timerPauseBtn.addEventListener('click', pauseTimer);
+    timerResetBtn.addEventListener('click', resetTimer);
+
+    function onInputsChanged() {
+      const secs = readInputsAsSeconds();
+      timerSetSeconds = secs;
+      if (!timerInterval) {
+        timerRemainingSeconds = timerSetSeconds;
+        renderTimer();
+      }
+    }
+    timerMinInput.addEventListener('input', onInputsChanged);
+    timerSecInput.addEventListener('change', onInputsChanged);
+    timerSecInput.addEventListener('input', onInputsChanged);
+    timerMinInput.addEventListener('change', onInputsChanged);
+
+    renderTimer();
+
+    /* ============================================================
+      DRAGGABLE TIMER
+    ============================================================ */
+    const TIMER_POS_KEY = 'timerWidgetPosition_v3';
+
+    function loadTimerPosition() {
+      try {
+        const raw = localStorage.getItem(TIMER_POS_KEY);
+        if (!raw) return;
+        const pos = JSON.parse(raw);
+        if (typeof pos?.left !== 'number' || typeof pos?.top !== 'number') return;
+        timerWidget.style.left = `${pos.left}px`;
+        timerWidget.style.top = `${pos.top}px`;
+      } catch {}
+    }
+
+    function saveTimerPosition(left, top) {
+      localStorage.setItem(TIMER_POS_KEY, JSON.stringify({ left, top }));
+    }
+
+    function makeDraggableAbsolute(el, onSave) {
+      let dragging = false;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      el.addEventListener('mousedown', (e) => {
+        const tag = e.target.tagName.toLowerCase();
+        if (tag === 'input' || tag === 'button') return;
+
+        dragging = true;
+        const rect = el.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        e.preventDefault();
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!dragging) return;
+        const parentRect = contentEl.getBoundingClientRect();
+
+        let left = e.clientX - parentRect.left - offsetX;
+        let top = e.clientY - parentRect.top - offsetY;
+
+        left = clamp(left, 0, parentRect.width - el.offsetWidth);
+        top = clamp(top, 0, parentRect.height - el.offsetHeight);
+
+        el.style.left = `${left}px`;
+        el.style.top = `${top}px`;
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (!dragging) return;
+        dragging = false;
+        const left = parseFloat(el.style.left) || 0;
+        const top = parseFloat(el.style.top) || 0;
+        if (onSave) onSave(left, top);
+      });
+    }
+
+    loadTimerPosition();
+    makeDraggableAbsolute(timerWidget, saveTimerPosition);
+
+    /* ============================================================
+      FULLSCREEN
+    ============================================================ */
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    fullscreenBtn.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
+    });
+
+    /* ============================================================
+      INIT
+    ============================================================ */
+    loadPhotosFromStorage();
+    renderSlide();
+  </script>
+</body>
+</html>
