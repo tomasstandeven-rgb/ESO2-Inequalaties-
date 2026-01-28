@@ -331,6 +331,18 @@
       color: #e74c3c;
     }
 
+    .worked-example .red-multiplier {
+      color: #e74c3c;
+    }
+
+    .worked-example .red-bracket {
+      color: #e74c3c;
+    }
+
+    .worked-example .red-dot {
+      color: #e74c3c;
+    }
+
     /* ============================================================
       TWO COLUMN TEACHER EXAMPLES
     ============================================================ */
@@ -872,21 +884,23 @@
           html += `<div class="rhs"><span class="bracket-notation">) ${step.multiplier}</span></div>`;
         } else if (step.type === 'multiply-fraction') {
           const lhsFrac = `
-            <span class="bracket-notation">${step.multiplier} (</span>
+            <span class="red-multiplier">${step.multiplier}</span> <span class="red-dot">·</span> <span class="red-bracket">(</span>
             <div class="fraction-display" style="display: inline-flex;">
               <div class="numerator">${step.lhsNum}</div>
-              <div class="fraction-line"></div>
+              <div class="fraction-line" style="border-color: #000;"></div>
               <div class="denominator" style="color: #000;">${step.lhsDen}</div>
             </div>
+            <span class="red-bracket">)</span>
           `;
-          const rhsFrac = `
+          const rhsFrac = step.rhsDen === '1' ? 
+            `<span class="red-bracket">(</span>${step.rhsNum}<span class="red-bracket">)</span> <span class="red-dot">·</span> <span class="red-multiplier">${step.multiplier}</span>` :
+            `<span class="red-bracket">(</span>
             <div class="fraction-display" style="display: inline-flex;">
               <div class="numerator">${step.rhsNum}</div>
               <div class="fraction-line" style="border-color: #000;"></div>
               <div class="denominator" style="color: #000;">${step.rhsDen}</div>
             </div>
-            <span class="bracket-notation">) ${step.multiplier}</span>
-          `;
+            <span class="red-bracket">)</span> <span class="red-dot">·</span> <span class="red-multiplier">${step.multiplier}</span>`;
           html += `<div class="lhs">${lhsFrac}</div>`;
           html += `<div class="sign">${step.sign}</div>`;
           html += `<div class="rhs">${rhsFrac}</div>`;
@@ -1158,7 +1172,7 @@
         render: () => renderCoreKnowledge(
           'Core Knowledge: Two-Step Inequalities',
           [
-            'Use inverse operations in reverse PEMDAS order.',
+            'Use inverse operations in reverse BIDMAS order.',
             'First, add or subtract the constant term.',
             'Second, multiply or divide to solve for \\(x\\).'
           ],
@@ -1284,8 +1298,8 @@
           </section>
 
           ${renderMiniWhiteboard([
-            { label: "1.", exprHtml: `\\(\\frac{9}{x} - 6 > 4\\)` },
-            { label: "2.", exprHtml: `\\(\\frac{4x-5}{1} > 2\\)` }
+            { label: "1.", exprHtml: `\\(\\frac{x}{9} - 6 > 4\\)` },
+            { label: "2.", exprHtml: `\\(\\frac{4x-5}{10} > 2\\)` }
           ])}
         `
       },
