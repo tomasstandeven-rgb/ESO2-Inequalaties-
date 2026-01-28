@@ -138,18 +138,14 @@
     .bullets li { margin: 6px 0; }
 
     /* ============================================================
-      NEW: CORE KNOWLEDGE SPLIT LAYOUT
+      CORE KNOWLEDGE LAYOUT (NO HANDWRITTEN NOTES BOX)
     ============================================================ */
     .core-knowledge-container {
-      max-width: 1100px;
+      max-width: 900px;
       width: 100%;
-      display: flex;
-      gap: 24px;
-      align-items: stretch;
     }
 
     .core-left {
-      flex: 1;
       background: var(--card-bg);
       border-radius: var(--radius-card);
       border: 3px solid var(--card-border);
@@ -164,20 +160,13 @@
       color: #2c3e50;
     }
 
-    .core-right {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
     .question-box {
       background: var(--card-bg);
       border-radius: var(--radius-card);
       border: 3px solid #9b59b6;
       box-shadow: var(--shadow-soft);
       padding: 20px 28px;
-      flex: 0 0 auto;
+      margin-top: 18px;
     }
 
     .question-box h2 {
@@ -193,88 +182,75 @@
       line-height: 1.3;
     }
 
-    .photo-upload-box {
-      background: var(--card-bg);
-      border-radius: var(--radius-card);
-      border: 3px solid #27ae60;
-      box-shadow: var(--shadow-soft);
-      padding: 20px 28px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      min-height: 300px;
-    }
-
-    .photo-upload-box h3 {
-      font-size: 20px;
-      font-weight: 800;
-      color: #2c3e50;
-      margin-bottom: 12px;
-    }
-
-    .photo-preview {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #f8f9fa;
-      border-radius: 12px;
-      border: 2px dashed #bdc3c7;
-      position: relative;
-      overflow: hidden;
-      min-height: 250px;
-    }
-
-    .photo-preview img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-
-    .photo-placeholder {
-      text-align: center;
-      color: #7f8c8d;
-      font-size: 16px;
+    /* ============================================================
+      NUMBER LINE
+    ============================================================ */
+    .number-line-container {
+      margin-top: 20px;
       padding: 20px;
     }
 
-    .photo-controls {
-      margin-top: 12px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+    .number-line {
+      position: relative;
+      height: 60px;
+      margin: 30px 0;
     }
 
-    .upload-btn, .remove-btn {
-      padding: 10px 20px;
-      border-radius: 8px;
-      border: none;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 14px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-      transition: transform 0.1s;
+    .number-line-axis {
+      position: absolute;
+      top: 30px;
+      left: 10%;
+      right: 10%;
+      height: 3px;
+      background: #000;
     }
 
-    .upload-btn {
-      background: #3498db;
-      color: white;
+    .number-line-arrow {
+      position: absolute;
+      top: 30px;
+      right: 10%;
+      width: 0;
+      height: 0;
+      border-left: 12px solid #000;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
     }
 
-    .remove-btn {
-      background: #e74c3c;
-      color: white;
+    .number-line-point {
+      position: absolute;
+      top: 30px;
+      transform: translate(-50%, -50%);
     }
 
-    .upload-btn:hover, .remove-btn:hover {
-      transform: translateY(-2px);
+    .number-line-point.open {
+      width: 16px;
+      height: 16px;
+      border: 3px solid #000;
+      border-radius: 50%;
+      background: white;
     }
 
-    .upload-btn:active, .remove-btn:active {
-      transform: translateY(0);
+    .number-line-point.closed {
+      width: 16px;
+      height: 16px;
+      background: #000;
+      border-radius: 50%;
     }
 
-    .hidden { display: none; }
+    .number-line-label {
+      position: absolute;
+      top: 50px;
+      transform: translateX(-50%);
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .number-line-shade {
+      position: absolute;
+      top: 27px;
+      height: 9px;
+      background: rgba(52, 152, 219, 0.3);
+    }
 
     /* ============================================================
       MATH TYPOGRAPHY
@@ -291,6 +267,98 @@
     }
 
     /* ============================================================
+      WORKED EXAMPLE GRID LAYOUT
+    ============================================================ */
+    .worked-example {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      gap: 8px 20px;
+      align-items: baseline;
+      justify-content: start;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 36px;
+      line-height: 1.4;
+      margin-top: 12px;
+    }
+
+    .worked-example .lhs {
+      text-align: right;
+      justify-self: end;
+      color: #000000;
+    }
+
+    .worked-example .sign {
+      text-align: center;
+      justify-self: center;
+      min-width: 40px;
+      color: #000000;
+    }
+
+    .worked-example .rhs {
+      text-align: left;
+      justify-self: start;
+      color: #000000;
+    }
+
+    .worked-example .operation {
+      font-size: 28px;
+      color: #e74c3c;
+    }
+
+    .worked-example .fraction-display {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+    }
+
+    .worked-example .fraction-line {
+      border-top: 2px solid #e74c3c;
+      width: 100%;
+      margin: 2px 0;
+    }
+
+    .worked-example .numerator {
+      color: #000000;
+    }
+
+    .worked-example .denominator {
+      color: #e74c3c;
+      font-size: 28px;
+    }
+
+    .worked-example .bracket-notation {
+      color: #e74c3c;
+    }
+
+    /* ============================================================
+      TWO COLUMN TEACHER EXAMPLES
+    ============================================================ */
+    .teacher-examples-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      max-width: 1100px;
+      width: 100%;
+      margin-top: 18px;
+    }
+
+    .teacher-example-col {
+      background: var(--card-bg);
+      border-radius: var(--radius-card);
+      border: 3px solid var(--card-border);
+      box-shadow: var(--shadow-soft);
+      padding: 20px 28px;
+    }
+
+    .teacher-example-col h2 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #2c3e50;
+      margin-bottom: 12px;
+    }
+
+    /* ============================================================
       QUESTION LABELS
     ============================================================ */
     .q-label {
@@ -304,7 +372,7 @@
     }
 
     /* ============================================================
-      MINI-WHITEBOARD (2×2 GRID)
+      MINI-WHITEBOARD (2x2 GRID - SPLIT INTO TWO SLIDES)
     ============================================================ */
     .questions-grid {
       max-width: 900px;
@@ -548,7 +616,7 @@
       white-space: nowrap;
     }
     
-    /* NEW CIRCULAR PEN BUTTON STYLES */
+    /* CIRCULAR PEN BUTTON STYLES */
     .pen-circle {
       width: 50px;
       height: 50px;
@@ -575,7 +643,6 @@
       box-shadow: 0 0 0 2px #f1c40f, 0 3px 8px rgba(0,0,0,0.3);
     }
     
-    /* Individual pen button colors */
     #blackPenBtn {
       background: #1a1a1a;
     }
@@ -637,16 +704,14 @@
       vertical-align: top;
     }
 
+    .hidden { display: none; }
+
     /* ============================================================
       RESPONSIVE BEHAVIOR
     ============================================================ */
     @media (max-width: 1100px) {
-      .core-knowledge-container {
-        flex-direction: column;
-      }
-      
-      .core-right {
-        width: 100%;
+      .teacher-examples-container {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -691,7 +756,7 @@
     </div>
 
     <div class="top-right">
-      <span class="page-info" id="pageInfo">Slide 1 of 22</span>
+      <span class="page-info" id="pageInfo">Slide 1 of 25</span>
       <div class="slide-select-wrapper">
         <select class="slide-select" id="slideSelect"></select>
       </div>
@@ -723,12 +788,11 @@
       <button id="prevBtn" class="tool-button disabled">←</button>
       <button id="nextBtn" class="tool-button">→</button>
 
-      <!-- NEW CIRCULAR PEN BUTTONS -->
       <button id="blackPenBtn" class="pen-circle" title="Black Pen">✏️</button>
       <button id="yellowPenBtn" class="pen-circle" title="Yellow Pen">✏️</button>
       <button id="greenPenBtn" class="pen-circle" title="Green Pen">✏️</button>
       <button id="redPenBtn" class="pen-circle" title="Red Pen">✏️</button>
-      <button id="highlighterBtn" class="pen-circle" title="Yellow Highlighter">🖍️</button>
+      <button id="highlighterBtn" class="pen-circle" title="Yellow Highlighter">🖍</button>
       <button id="eraserBtn" class="pen-circle" title="Eraser">⚪</button>
 
       <button id="penSizeBtn" class="pill-button pill-blue">Pen size: Medium ▾</button>
@@ -739,12 +803,18 @@
     <div class="toolbar-spacer"></div>
 
     <div class="toolbar-right">
-      <button id="editModeBtn" class="pill-button pill-orange">Edit Mode: OFF</button>
-      <button id="savePhotosBtn" class="pill-button pill-green hidden">💾 Save Photos</button>
     </div>
   </footer>
 
   <script>
+    /* ============================================================
+      CONFIG
+    ============================================================ */
+    const CONFIG = {
+      useStructuredSteps: true,
+      fallbackStringParser: false
+    };
+
     /* ============================================================
       DOM HOOKS
     ============================================================ */
@@ -763,117 +833,103 @@
     const timerMinInput = document.getElementById('timerMin');
     const timerSecInput = document.getElementById('timerSec');
 
-    const editModeBtn = document.getElementById('editModeBtn');
-    const savePhotosBtn = document.getElementById('savePhotosBtn');
+    /* ============================================================
+      WORKED EXAMPLE RENDERER
+    ============================================================ */
+    function renderWorkedExample(steps) {
+      let html = '<div class="worked-example">';
+      
+      steps.forEach(step => {
+        if (step.type === 'step') {
+          html += `<div class="lhs">${step.lhs}</div>`;
+          html += `<div class="sign">${step.sign}</div>`;
+          html += `<div class="rhs">${step.rhs}</div>`;
+        } else if (step.type === 'operation') {
+          html += `<div class="lhs operation">${step.lhs || ''}</div>`;
+          html += `<div class="sign operation"></div>`;
+          html += `<div class="rhs operation">${step.rhs || ''}</div>`;
+        } else if (step.type === 'fraction') {
+          const lhsFrac = step.lhsNum ? `
+            <div class="fraction-display">
+              <div class="numerator">${step.lhsNum}</div>
+              <div class="fraction-line"></div>
+              <div class="denominator">${step.lhsDen}</div>
+            </div>
+          ` : '';
+          const rhsFrac = step.rhsNum ? `
+            <div class="fraction-display">
+              <div class="numerator">${step.rhsNum}</div>
+              <div class="fraction-line"></div>
+              <div class="denominator">${step.rhsDen}</div>
+            </div>
+          ` : '';
+          html += `<div class="lhs">${lhsFrac}</div>`;
+          html += `<div class="sign">${step.sign}</div>`;
+          html += `<div class="rhs">${rhsFrac}</div>`;
+        } else if (step.type === 'multiply') {
+          html += `<div class="lhs"><span class="bracket-notation">${step.multiplier} (</span></div>`;
+          html += `<div class="sign"></div>`;
+          html += `<div class="rhs"><span class="bracket-notation">) ${step.multiplier}</span></div>`;
+        } else if (step.type === 'multiply-fraction') {
+          const lhsFrac = `
+            <span class="bracket-notation">${step.multiplier} (</span>
+            <div class="fraction-display" style="display: inline-flex;">
+              <div class="numerator">${step.lhsNum}</div>
+              <div class="fraction-line"></div>
+              <div class="denominator" style="color: #000;">${step.lhsDen}</div>
+            </div>
+          `;
+          const rhsFrac = `
+            <div class="fraction-display" style="display: inline-flex;">
+              <div class="numerator">${step.rhsNum}</div>
+              <div class="fraction-line" style="border-color: #000;"></div>
+              <div class="denominator" style="color: #000;">${step.rhsDen}</div>
+            </div>
+            <span class="bracket-notation">) ${step.multiplier}</span>
+          `;
+          html += `<div class="lhs">${lhsFrac}</div>`;
+          html += `<div class="sign">${step.sign}</div>`;
+          html += `<div class="rhs">${rhsFrac}</div>`;
+        }
+      });
+      
+      html += '</div>';
+      return html;
+    }
 
     /* ============================================================
-      PHOTO MANAGEMENT SYSTEM
+      NUMBER LINE RENDERER
     ============================================================ */
-    let editMode = false;
-    let slidePhotos = {}; // { slideIndex: base64ImageData }
-
-    const PHOTOS_STORAGE_KEY = 'slidePhotos_inequalities';
-
-    function loadPhotosFromStorage() {
-      try {
-        const saved = localStorage.getItem(PHOTOS_STORAGE_KEY);
-        if (saved) {
-          slidePhotos = JSON.parse(saved);
-        }
-      } catch (e) {
-        console.error('Error loading photos:', e);
-      }
-    }
-
-    function savePhotosToStorage() {
-      try {
-        localStorage.setItem(PHOTOS_STORAGE_KEY, JSON.stringify(slidePhotos));
-        alert('Photos saved successfully! ✓');
-      } catch (e) {
-        console.error('Error saving photos:', e);
-        alert('Error saving photos. Please try again.');
-      }
-    }
-
-    function toggleEditMode() {
-      editMode = !editMode;
-      editModeBtn.textContent = editMode ? 'Edit Mode: ON' : 'Edit Mode: OFF';
-      editModeBtn.style.background = editMode ? '#e67e22' : 'var(--pill-orange)';
-      
-      if (editMode) {
-        savePhotosBtn.classList.remove('hidden');
-      } else {
-        savePhotosBtn.classList.add('hidden');
-      }
-      
-      renderSlide();
-    }
-
-    editModeBtn.addEventListener('click', toggleEditMode);
-    savePhotosBtn.addEventListener('click', savePhotosToStorage);
-
-    function handlePhotoUpload(slideIndex) {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
-      
-      input.onchange = (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          slidePhotos[slideIndex] = event.target.result;
-          renderSlide();
-        };
-        reader.readAsDataURL(file);
+    function renderNumberLine(point, isOpen, direction) {
+      const positions = {
+        '-3': '15%',
+        '-2': '25%',
+        '-1': '35%',
+        '0': '45%',
+        '1': '55%',
+        '2': '65%',
+        '3': '75%'
       };
       
-      input.click();
-    }
-
-    function handlePhotoRemove(slideIndex) {
-      if (confirm('Remove this photo?')) {
-        delete slidePhotos[slideIndex];
-        renderSlide();
-      }
-    }
-
-    function renderPhotoUploadBox(slideIndex) {
-      const hasPhoto = slidePhotos[slideIndex];
+      const pointPos = positions[String(point)] || '45%';
+      const pointType = isOpen ? 'open' : 'closed';
+      const shadeLeft = direction === 'right' ? pointPos : '10%';
+      const shadeRight = direction === 'right' ? '90%' : pointPos;
       
       return `
-        <div class="photo-upload-box">
-          <h3>Handwritten Example</h3>
-          <div class="photo-preview">
-            ${hasPhoto 
-              ? `<img src="${slidePhotos[slideIndex]}" alt="Handwritten example" />`
-              : `<div class="photo-placeholder">
-                   ${editMode 
-                     ? '📸 Click "Upload Photo" below to add your handwritten example' 
-                     : 'No photo uploaded yet'}
-                 </div>`
-            }
+        <div class="number-line-container">
+          <div class="number-line">
+            <div class="number-line-axis"></div>
+            <div class="number-line-arrow"></div>
+            <div class="number-line-shade" style="left: ${shadeLeft}; right: calc(100% - ${shadeRight});"></div>
+            ${Object.entries(positions).map(([num, pos]) => `
+              <div class="number-line-label" style="left: ${pos};">${num}</div>
+              ${num === String(point) ? `<div class="number-line-point ${pointType}" style="left: ${pos};"></div>` : ''}
+            `).join('')}
           </div>
-          ${editMode ? `
-            <div class="photo-controls">
-              <button class="upload-btn" onclick="handlePhotoUpload(${slideIndex})">
-                ${hasPhoto ? 'Change Photo' : 'Upload Photo'}
-              </button>
-              ${hasPhoto ? `
-                <button class="remove-btn" onclick="handlePhotoRemove(${slideIndex})">
-                  Remove Photo
-                </button>
-              ` : ''}
-            </div>
-          ` : ''}
         </div>
       `;
     }
-
-    // Make functions globally accessible
-    window.handlePhotoUpload = handlePhotoUpload;
-    window.handlePhotoRemove = handlePhotoRemove;
 
     /* ============================================================
       SLIDE TYPE LAYOUT HELPERS
@@ -904,10 +960,10 @@
     }
 
     function renderMiniWhiteboard(items) {
-      const first4 = items.slice(0, 4);
+      const first2 = items.slice(0, 2);
       return `
         <section class="questions-grid">
-          ${first4.map(r => `
+          ${first2.map(r => `
             <div class="q-block">
               <span class="q-label">${r.label}</span>
               <span class="math">${r.exprHtml}</span>
@@ -917,7 +973,7 @@
       `;
     }
 
-    function renderCoreKnowledgeSplit(slideIndex, title, bulletPoints, question, questionContent) {
+    function renderCoreKnowledge(title, bulletPoints, question, content) {
       return `
         <section class="core-knowledge-container">
           <div class="core-left">
@@ -927,17 +983,28 @@
             </ul>
           </div>
           
-          <div class="core-right">
-            <div class="question-box">
-              <h2>${question}</h2>
-              <div class="question-content">
-                <span class="math">${questionContent}</span>
-              </div>
+          <div class="question-box">
+            <h2>${question}</h2>
+            <div class="question-content">
+              ${content}
             </div>
-            
-            ${renderPhotoUploadBox(slideIndex)}
           </div>
         </section>
+      `;
+    }
+
+    function renderTwoColumnExamples(exampleA, exampleB) {
+      return `
+        <div class="teacher-examples-container">
+          <div class="teacher-example-col">
+            <h2>${exampleA.title}</h2>
+            ${exampleA.content}
+          </div>
+          <div class="teacher-example-col">
+            <h2>${exampleB.title}</h2>
+            ${exampleB.content}
+          </div>
+        </div>
       `;
     }
 
@@ -945,11 +1012,10 @@
       SLIDE DECK DATA
     ============================================================ */
     const slides = [
-      // Slide 1: Core Knowledge – Representing Inequalities
+      // Slide 1
       {
         timer: null,
-        render: () => renderCoreKnowledgeSplit(
-          0,
+        render: () => renderCoreKnowledge(
           'Core Knowledge: Representing Inequalities',
           [
             'Inequalities describe a range of possible values for a variable rather than a single fixed value.',
@@ -957,11 +1023,11 @@
             'Number Lines: Use an open circle (○) for strict inequalities (\\(<\\) or \\(>\\)). Use a closed circle (●) for inclusive inequalities (\\(\\le\\) or \\(\\ge\\)).'
           ],
           'Worked Example',
-          'Represent \\(x > -2\\) on a number line.'
+          `Represent \\(x > -2\\) on a number line.${renderNumberLine(-2, true, 'right')}`
         )
       },
 
-      // Slide 2: Example – Number Lines
+      // Slide 2
       {
         timer: null,
         render: () => `
@@ -982,7 +1048,7 @@
         `
       },
 
-      // Slide 3: Mini Whiteboards
+      // Slide 3 & 4: Mini Whiteboards (split 4 questions into 2 slides)
       {
         timer: { min: 1, sec: 0 },
         render: () => `
@@ -993,29 +1059,44 @@
 
           ${renderMiniWhiteboard([
             { label: "1.", exprHtml: `\\(x < 5\\)` },
-            { label: "2.", exprHtml: `\\(x \\ge -2\\)` },
+            { label: "2.", exprHtml: `\\(x \\ge -2\\)` }
+          ])}
+        `
+      },
+      {
+        timer: { min: 1, sec: 0 },
+        render: () => `
+          <section class="card example-card">
+            <h1>Mini Whiteboards</h1>
+            <p><strong>On your whiteboards, represent the following on a number line.</strong></p>
+          </section>
+
+          ${renderMiniWhiteboard([
             { label: "3.", exprHtml: `\\(x \\le 0\\)` },
             { label: "4.", exprHtml: `\\(x > 4\\)` }
           ])}
         `
       },
 
-      // Slide 4: Core Knowledge – One-Step Inequalities
+      // Slide 5
       {
         timer: null,
-        render: () => renderCoreKnowledgeSplit(
-          3,
+        render: () => renderCoreKnowledge(
           'Core Knowledge: One-Step Inequalities',
           [
             'To solve an inequality, isolate the variable by performing the inverse operation on both sides.',
             'The solution represents the range of values that make the inequality true.'
           ],
           'Worked Example',
-          '\\(\\begin{aligned} x + 4 &> 9 \\\\ x &> 9 - 4 \\\\ x &> 5 \\end{aligned}\\)'
+          renderWorkedExample([
+            { type: 'step', lhs: '\\(x + 4\\)', sign: '\\(>\\)', rhs: '9' },
+            { type: 'operation', lhs: '-4', rhs: '-4' },
+            { type: 'step', lhs: '\\(x\\)', sign: '\\(>\\)', rhs: '5' }
+          ])
         )
       },
 
-      // Slide 5: Example – One-Step Inequalities
+      // Slide 6
       {
         timer: null,
         render: () => `
@@ -1024,19 +1105,24 @@
             <p>Solve the following inequalities.</p>
           </section>
 
-          ${renderRowQuestions(
-            [
-              { label: "a)", mainHtml: `\\(x - 3 < 2\\)` },
-              { label: "", mainHtml: "", placeholder: true },
-              { label: "b)", mainHtml: `\\(5x \\ge 15\\)` },
-              { label: "", mainHtml: "", placeholder: true }
-            ],
-            { forceCount: 4 }
+          ${renderTwoColumnExamples(
+            {
+              title: 'Example a)',
+              content: renderWorkedExample([
+                { type: 'step', lhs: '\\(x - 3\\)', sign: '\\(<\\)', rhs: '2' }
+              ])
+            },
+            {
+              title: 'Example b)',
+              content: renderWorkedExample([
+                { type: 'step', lhs: '\\(5x\\)', sign: '\\(\\ge\\)', rhs: '15' }
+              ])
+            }
           )}
         `
       },
 
-      // Slide 6: Mini Whiteboards
+      // Slide 7 & 8
       {
         timer: { min: 1, sec: 0 },
         render: () => `
@@ -1047,18 +1133,29 @@
 
           ${renderMiniWhiteboard([
             { label: "1.", exprHtml: `\\(2x \\le 14\\)` },
-            { label: "2.", exprHtml: `\\(8x < 16\\)` },
+            { label: "2.", exprHtml: `\\(8x < 16\\)` }
+          ])}
+        `
+      },
+      {
+        timer: { min: 1, sec: 0 },
+        render: () => `
+          <section class="card example-card">
+            <h1>Mini Whiteboards</h1>
+            <p><strong>On your whiteboards, solve the following.</strong></p>
+          </section>
+
+          ${renderMiniWhiteboard([
             { label: "3.", exprHtml: `\\(\\frac{x}{3} > 4\\)` },
             { label: "4.", exprHtml: `\\(x + 6 \\ge 4\\)` }
           ])}
         `
       },
 
-      // Slide 7: Core Knowledge – Two-Step Inequalities
+      // Slide 9
       {
         timer: null,
-        render: () => renderCoreKnowledgeSplit(
-          6,
+        render: () => renderCoreKnowledge(
           'Core Knowledge: Two-Step Inequalities',
           [
             'Use inverse operations in reverse BIDMAS order.',
@@ -1066,11 +1163,17 @@
             'Second, multiply or divide to solve for \\(x\\).'
           ],
           'Worked Example',
-          '\\(\\begin{aligned} 2x + 1 &\\le 9 \\\\ 2x &\\le 8 \\\\ x &\\le 4 \\end{aligned}\\)'
+          renderWorkedExample([
+            { type: 'step', lhs: '\\(2x + 1\\)', sign: '\\(\\le\\)', rhs: '9' },
+            { type: 'operation', lhs: '-1', rhs: '-1' },
+            { type: 'step', lhs: '\\(2x\\)', sign: '\\(\\le\\)', rhs: '8' },
+            { type: 'fraction', lhsNum: '\\(2x\\)', lhsDen: '2', sign: '\\(\\le\\)', rhsNum: '8', rhsDen: '2' },
+            { type: 'step', lhs: '\\(x\\)', sign: '\\(\\le\\)', rhs: '4' }
+          ])
         )
       },
 
-      // Slide 8: Example – Two-Step Inequalities
+      // Slide 10
       {
         timer: null,
         render: () => `
@@ -1079,19 +1182,24 @@
             <p>Solve the following inequalities.</p>
           </section>
 
-          ${renderRowQuestions(
-            [
-              { label: "a)", mainHtml: `\\(3x - 5 > 16\\)` },
-              { label: "", mainHtml: "", placeholder: true },
-              { label: "b)", mainHtml: `\\(4x + 8 < 32\\)` },
-              { label: "", mainHtml: "", placeholder: true }
-            ],
-            { forceCount: 4 }
+          ${renderTwoColumnExamples(
+            {
+              title: 'Example a)',
+              content: renderWorkedExample([
+                { type: 'step', lhs: '\\(3x - 5\\)', sign: '\\(>\\)', rhs: '16' }
+              ])
+            },
+            {
+              title: 'Example b)',
+              content: renderWorkedExample([
+                { type: 'step', lhs: '\\(4x + 8\\)', sign: '\\(<\\)', rhs: '32' }
+              ])
+            }
           )}
         `
       },
 
-      // Slide 9: Mini Whiteboards
+      // Slide 11 & 12
       {
         timer: { min: 1, sec: 0 },
         render: () => `
@@ -1102,29 +1210,45 @@
 
           ${renderMiniWhiteboard([
             { label: "1.", exprHtml: `\\(5x - 2 \\ge 68\\)` },
-            { label: "2.", exprHtml: `\\(4x + 7 < 11\\)` },
+            { label: "2.", exprHtml: `\\(4x + 7 < 11\\)` }
+          ])}
+        `
+      },
+      {
+        timer: { min: 1, sec: 0 },
+        render: () => `
+          <section class="card example-card">
+            <h1>Mini Whiteboards</h1>
+            <p><strong>On your whiteboards, solve the following.</strong></p>
+          </section>
+
+          ${renderMiniWhiteboard([
             { label: "3.", exprHtml: `\\(3x - 2 \\ge 10\\)` },
             { label: "4.", exprHtml: `\\(2x + 5 \\le 17\\)` }
           ])}
         `
       },
 
-      // Slide 10: Core Knowledge – Fractional Inequalities
+      // Slide 13
       {
         timer: null,
-        render: () => renderCoreKnowledgeSplit(
-          9,
+        render: () => renderCoreKnowledge(
           'Core Knowledge: Fractional Inequalities',
           [
             'If the entire expression is over a denominator, multiply both sides by that denominator first.',
             'If only the variable is part of a fraction, isolate the fractional term before multiplying.'
           ],
           'Worked Example',
-          '\\(\\begin{aligned} \\frac{x+18}{4} &\\le 5 \\\\ x + 18 &\\le 20 \\\\ x &\\le 2 \\end{aligned}\\)'
+          renderWorkedExample([
+            { type: 'multiply-fraction', lhsNum: '\\(x+18\\)', lhsDen: '4', sign: '\\(\\le\\)', rhsNum: '5', rhsDen: '1', multiplier: '4' },
+            { type: 'step', lhs: '\\(x + 18\\)', sign: '\\(\\le\\)', rhs: '20' },
+            { type: 'operation', lhs: '-18', rhs: '-18' },
+            { type: 'step', lhs: '\\(x\\)', sign: '\\(\\le\\)', rhs: '2' }
+          ])
         )
       },
 
-      // Slide 11: Example – Fractional Inequalities
+      // Slide 14
       {
         timer: null,
         render: () => `
@@ -1133,19 +1257,24 @@
             <p>Solve the following inequalities.</p>
           </section>
 
-          ${renderRowQuestions(
-            [
-              { label: "a)", mainHtml: `\\(\\frac{x}{2} + 1 \\le 5\\)` },
-              { label: "", mainHtml: "", placeholder: true },
-              { label: "b)", mainHtml: `\\(\\frac{x+3}{2} \\ge 5\\)` },
-              { label: "", mainHtml: "", placeholder: true }
-            ],
-            { forceCount: 4 }
+          ${renderTwoColumnExamples(
+            {
+              title: 'Example a)',
+              content: renderWorkedExample([
+                { type: 'step', lhs: '\\(\\frac{x}{2} + 1\\)', sign: '\\(\\le\\)', rhs: '5' }
+              ])
+            },
+            {
+              title: 'Example b)',
+              content: renderWorkedExample([
+                { type: 'step', lhs: '\\(\\frac{x+3}{2}\\)', sign: '\\(\\ge\\)', rhs: '5' }
+              ])
+            }
           )}
         `
       },
 
-      // Slide 12: Mini Whiteboards
+      // Slide 15 & 16
       {
         timer: { min: 1, sec: 0 },
         render: () => `
@@ -1156,29 +1285,47 @@
 
           ${renderMiniWhiteboard([
             { label: "1.", exprHtml: `\\(\\frac{9}{x} - 6 > 4\\)` },
-            { label: "2.", exprHtml: `\\(\\frac{4x-5}{1} > 2\\)` },
+            { label: "2.", exprHtml: `\\(\\frac{4x-5}{1} > 2\\)` }
+          ])}
+        `
+      },
+      {
+        timer: { min: 1, sec: 0 },
+        render: () => `
+          <section class="card example-card">
+            <h1>Mini Whiteboards</h1>
+            <p><strong>On your whiteboards, solve the following.</strong></p>
+          </section>
+
+          ${renderMiniWhiteboard([
             { label: "3.", exprHtml: `\\(\\frac{x}{2} - 3 > 0\\)` },
             { label: "4.", exprHtml: `\\(\\frac{x+4}{3} \\le 6\\)` }
           ])}
         `
       },
 
-      // Slide 13: Core Knowledge – Single Brackets
+      // Slide 17
       {
         timer: null,
-        render: () => renderCoreKnowledgeSplit(
-          12,
+        render: () => renderCoreKnowledge(
           'Core Knowledge: Single Brackets',
           [
             'Expand the brackets first by multiplying the term outside by every term inside.',
             'Solve the resulting inequality using standard two-step methods.'
           ],
           'Worked Example',
-          '\\(\\begin{aligned} 5(x - 3) &\\ge 40 \\\\ 5x - 15 &\\ge 40 \\\\ 5x &\\ge 55 \\\\ x &\\ge 11 \\end{aligned}\\)'
+          renderWorkedExample([
+            { type: 'step', lhs: '\\(5(x - 3)\\)', sign: '\\(\\ge\\)', rhs: '40' },
+            { type: 'step', lhs: '\\(5x - 15\\)', sign: '\\(\\ge\\)', rhs: '40' },
+            { type: 'operation', lhs: '+15', rhs: '+15' },
+            { type: 'step', lhs: '\\(5x\\)', sign: '\\(\\ge\\)', rhs: '55' },
+            { type: 'fraction', lhsNum: '\\(5x\\)', lhsDen: '5', sign: '\\(\\ge\\)', rhsNum: '55', rhsDen: '5' },
+            { type: 'step', lhs: '\\(x\\)', sign: '\\(\\ge\\)', rhs: '11' }
+          ])
         )
       },
 
-      // Slide 14: Example – Single Brackets
+      // Slide 18
       {
         timer: null,
         render: () => `
@@ -1187,19 +1334,24 @@
             <p>Solve the following inequalities.</p>
           </section>
 
-          ${renderRowQuestions(
-            [
-              { label: "a)", mainHtml: `\\(6(x + 2) < 42\\)` },
-              { label: "", mainHtml: "", placeholder: true },
-              { label: "b)", mainHtml: `\\(2(5x + 1) \\le 36\\)` },
-              { label: "", mainHtml: "", placeholder: true }
-            ],
-            { forceCount: 4 }
+          ${renderTwoColumnExamples(
+            {
+              title: 'Example a)',
+              content: renderWorkedExample([
+                { type: 'step', lhs: '\\(6(x + 2)\\)', sign: '\\(<\\)', rhs: '42' }
+              ])
+            },
+            {
+              title: 'Example b)',
+              content: renderWorkedExample([
+                { type: 'step', lhs: '\\(2(5x + 1)\\)', sign: '\\(\\le\\)', rhs: '36' }
+              ])
+            }
           )}
         `
       },
 
-      // Slide 15: Mini Whiteboards
+      // Slide 19 & 20
       {
         timer: { min: 1, sec: 0 },
         render: () => `
@@ -1210,29 +1362,48 @@
 
           ${renderMiniWhiteboard([
             { label: "1.", exprHtml: `\\(4(x - 2) < 18\\)` },
-            { label: "2.", exprHtml: `\\(2(2x - 9) \\ge 22\\)` },
+            { label: "2.", exprHtml: `\\(2(2x - 9) \\ge 22\\)` }
+          ])}
+        `
+      },
+      {
+        timer: { min: 1, sec: 0 },
+        render: () => `
+          <section class="card example-card">
+            <h1>Mini Whiteboards</h1>
+            <p><strong>On your whiteboards, solve the following.</strong></p>
+          </section>
+
+          ${renderMiniWhiteboard([
             { label: "3.", exprHtml: `\\(3(2x + 7) \\le 9\\)` },
             { label: "4.", exprHtml: `\\(5(x + 1) > 25\\)` }
           ])}
         `
       },
 
-      // Slide 16: Core Knowledge – Variables on Both Sides
+      // Slide 21
       {
         timer: null,
-        render: () => renderCoreKnowledgeSplit(
-          15,
+        render: () => renderCoreKnowledge(
           'Core Knowledge: Variables on Both Sides',
           [
             'Collect all terms involving \\(x\\) on one side (the side with the higher coefficient).',
             'Collect all constant terms on the opposite side.'
           ],
           'Worked Example',
-          '\\(\\begin{aligned} 4x + 3 &> 2x + 11 \\\\ 2x + 3 &> 11 \\\\ 2x &> 8 \\\\ x &> 4 \\end{aligned}\\)'
+          renderWorkedExample([
+            { type: 'step', lhs: '\\(4x + 3\\)', sign: '\\(>\\)', rhs: '\\(2x + 11\\)' },
+            { type: 'operation', lhs: '-2x', rhs: '-2x' },
+            { type: 'step', lhs: '\\(2x + 3\\)', sign: '\\(>\\)', rhs: '11' },
+            { type: 'operation', lhs: '-3', rhs: '-3' },
+            { type: 'step', lhs: '\\(2x\\)', sign: '\\(>\\)', rhs: '8' },
+            { type: 'fraction', lhsNum: '\\(2x\\)', lhsDen: '2', sign: '\\(>\\)', rhsNum: '8', rhsDen: '2' },
+            { type: 'step', lhs: '\\(x\\)', sign: '\\(>\\)', rhs: '4' }
+          ])
         )
       },
 
-      // Slide 17: Example – Variables on Both Sides
+      // Slide 22
       {
         timer: null,
         render: () => `
@@ -1241,19 +1412,24 @@
             <p>Solve the following inequalities.</p>
           </section>
 
-          ${renderRowQuestions(
-            [
-              { label: "a)", mainHtml: `\\(13x - 12 < 3x + 13\\)` },
-              { label: "", mainHtml: "", placeholder: true },
-              { label: "b)", mainHtml: `\\(7x - 5 \\ge 3x + 11\\)` },
-              { label: "", mainHtml: "", placeholder: true }
-            ],
-            { forceCount: 4 }
+          ${renderTwoColumnExamples(
+            {
+              title: 'Example a)',
+              content: renderWorkedExample([
+                { type: 'step', lhs: '\\(13x - 12\\)', sign: '\\(<\\)', rhs: '\\(3x + 13\\)' }
+              ])
+            },
+            {
+              title: 'Example b)',
+              content: renderWorkedExample([
+                { type: 'step', lhs: '\\(7x - 5\\)', sign: '\\(\\ge\\)', rhs: '\\(3x + 11\\)' }
+              ])
+            }
           )}
         `
       },
 
-      // Slide 18: Mini Whiteboards
+      // Slide 23 & 24
       {
         timer: { min: 1, sec: 0 },
         render: () => `
@@ -1264,50 +1440,10 @@
 
           ${renderMiniWhiteboard([
             { label: "1.", exprHtml: `\\(x + 1 \\ge 3x - 18\\)` },
-            { label: "2.", exprHtml: `\\(5x + 2 < 2x + 14\\)` },
-            { label: "3.", exprHtml: `\\(6x - 4 \\ge 4x + 10\\)` },
-            { label: "4.", exprHtml: `\\(8x - 1 \\le 3x + 24\\)` }
+            { label: "2.", exprHtml: `\\(5x + 2 < 2x + 14\\)` }
           ])}
         `
       },
-
-      // Slide 19: Core Knowledge – Double Inequalities
-      {
-        timer: null,
-        render: () => renderCoreKnowledgeSplit(
-          18,
-          'Core Knowledge: Double Inequalities',
-          [
-            'A double inequality bounds a variable between two values.',
-            'Perform the same operation to all three parts of the inequality to isolate \\(x\\) in the middle.'
-          ],
-          'Worked Example',
-          '\\(\\begin{aligned} 9 &\\le 2x + 3 \\le 25 \\\\ 6 &\\le 2x \\le 22 \\\\ 3 &\\le x \\le 11 \\end{aligned}\\)'
-        )
-      },
-
-      // Slide 20: Example – Double Inequalities
-      {
-        timer: null,
-        render: () => `
-          <section class="card example-card">
-            <h1>Examples</h1>
-            <p>Solve the following inequalities.</p>
-          </section>
-
-          ${renderRowQuestions(
-            [
-              { label: "a)", mainHtml: `\\(6 < x + 3 < 10\\)` },
-              { label: "", mainHtml: "", placeholder: true },
-              { label: "b)", mainHtml: `\\(4 \\le 2x \\le 7\\)` },
-              { label: "", mainHtml: "", placeholder: true }
-            ],
-            { forceCount: 4 }
-          )}
-        `
-      },
-
-      // Slide 21: Mini Whiteboards
       {
         timer: { min: 1, sec: 0 },
         render: () => `
@@ -1317,15 +1453,13 @@
           </section>
 
           ${renderMiniWhiteboard([
-            { label: "1.", exprHtml: `\\(1 \\le 3x < 9\\)` },
-            { label: "2.", exprHtml: `\\(4 < \\frac{5}{x} < 6\\)` },
-            { label: "3.", exprHtml: `\\(-3 \\le \\frac{x}{4} - 1 < 0\\)` },
-            { label: "4.", exprHtml: `\\(10 < 2x + 4 < 20\\)` }
+            { label: "3.", exprHtml: `\\(6x - 4 \\ge 4x + 10\\)` },
+            { label: "4.", exprHtml: `\\(8x - 1 \\le 3x + 24\\)` }
           ])}
         `
       },
 
-      // Slide 22: Final Review Slide
+      // Slide 25: Final Review
       {
         timer: null,
         render: () => `
@@ -1349,17 +1483,6 @@
                   2x + 1 &\\le 9 \\\\
                   2x &\\le 8 \\\\
                   x &\\le 4
-                \\end{aligned}\\)
-              </div>
-            </div>
-
-            <div class="review-box">
-              <strong>Double Inequalities</strong><br>
-              Perform identical operations to all three parts of the expression to isolate the variable.
-              <div class="review-example">
-                \\(\\begin{aligned}
-                  6 < x + 3 &< 10 \\\\
-                  3 < x &< 7
                 \\end{aligned}\\)
               </div>
             </div>
@@ -1431,7 +1554,7 @@
     });
 
     /* ============================================================
-      DRAWING SYSTEM - UPDATED WITH NEW PENS
+      DRAWING SYSTEM
     ============================================================ */
     const canvas = document.getElementById('drawCanvas');
     const contentEl = document.querySelector('.content');
@@ -1465,7 +1588,7 @@
       { label: 'Medium', value: 20 },
       { label: 'Large', value: 40 }
     ];
-    const highlighterSize = 30; // Very large for highlighting over letters
+    const highlighterSize = 30;
     
     let penSizeIndex = 1;
     let eraserSizeIndex = 1;
@@ -1519,7 +1642,7 @@
 
     highlighterBtn.addEventListener('click', () => {
       currentTool = 'highlighter';
-      currentColor = 'rgba(255, 235, 59, 0.4)'; // Semi-transparent yellow
+      currentColor = 'rgba(255, 235, 59, 0.4)';
       enableDrawing(true);
       setActiveToolButton(highlighterBtn);
     });
@@ -1809,7 +1932,6 @@
     /* ============================================================
       INIT
     ============================================================ */
-    loadPhotosFromStorage();
     renderSlide();
   </script>
 </body>
