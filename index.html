@@ -1644,111 +1644,186 @@
         `
       },
 
-      // Slide 31: FINAL REVIEW (FIXED - Two methods side by side)
-      {
-        timer: null,
-        render: () => `
-          <section class="review-slide">
-            <div class="review-title">📝 Core Knowledge Review - Write in your books:</div>
+      // NEW SLIDE 1: Core Knowledge - Negatives and Inequalities
+{
+  timer: null,
+  render: () => renderCoreKnowledge(
+    'Core Knowledge: Negatives and Inequalities',
+    [
+      'If you add or subtract the same number on both sides, the inequality sign stays the same.',
+      'If you multiply or divide both sides by a positive number, the inequality sign stays the same.',
+      'If you multiply or divide both sides by a negative number, the inequality sign flips (e.g. \\(>\\) becomes \\(<\\)).'
+    ],
+    'Worked Example',
+    renderWorkedExample([
+      { type: 'step', lhs: '\\(-2x\\)', sign: '\\(>\\)', rhs: '6' },
+      { type: 'fraction', lhsNum: '\\(-2x\\)', lhsDen: '-2', sign: '\\(>\\)', rhsNum: '6', rhsDen: '-2', redDen: true },
+      { type: 'step', lhs: '\\(x\\)', sign: '\\(<\\)', rhs: '-3' }
+    ])
+  )
+},
 
-            <div class="review-box">
-              <strong>Solving inequalities</strong><br>
-              Use inverse operations to isolate the variable, just as you would with equations.
-              <div class="review-example">
-                ${renderWorkedExample([
-                  { type: 'step', lhs: '\\(2x + 1\\)', sign: '\\(\\le\\)', rhs: '9' },
-                  { type: 'operation', lhs: '-1', rhs: '-1' },
-                  { type: 'step', lhs: '\\(2x\\)', sign: '\\(\\le\\)', rhs: '8' },
-                  { type: 'fraction', lhsNum: '\\(2x\\)', lhsDen: '2', sign: '\\(\\le\\)', rhsNum: '8', rhsDen: '2', redDen: true },
-                  { type: 'step', lhs: '\\(x\\)', sign: '\\(\\le\\)', rhs: '4' }
-                ])}
-              </div>
-            </div>
+// NEW SLIDE 2: Live Example
+{
+  timer: null,
+  render: () => `
+    <section class="card example-card">
+      <h1>Live Example</h1>
+      <p><strong>Solve for the range of values of x. Watch carefully for when the sign flips.</strong></p>
+    </section>
 
-            <div class="review-box">
-              <strong>Solving inequalities with brackets</strong><br>
-              Two methods: expand first, or divide by the coefficient of the bracket first.
-              <div class="two-methods-container">
-                <div class="method-box">
-                  <div class="method-title">Method A: Expand first</div>
-                  <div class="review-example">
-                    ${renderWorkedExample([
-                      { type: 'step', lhs: '\\(3(2x + 7)\\)', sign: '\\(\\le\\)', rhs: '9' },
-                      { type: 'step', lhs: '\\(6x + 21\\)', sign: '\\(\\le\\)', rhs: '9' },
-                      { type: 'operation', lhs: '-21', rhs: '-21' },
-                      { type: 'step', lhs: '\\(6x\\)', sign: '\\(\\le\\)', rhs: '-12' },
-                      { type: 'fraction', lhsNum: '\\(6x\\)', lhsDen: '6', sign: '\\(\\le\\)', rhsNum: '-12', rhsDen: '6', redDen: true },
-                      { type: 'step', lhs: '\\(x\\)', sign: '\\(\\le\\)', rhs: '-2' }
-                    ])}
-                  </div>
-                </div>
-                <div class="method-box">
-                  <div class="method-title">Method B: Divide first</div>
-                  <div class="review-example">
-                    ${renderWorkedExample([
-                      { type: 'step', lhs: '\\(3(2x + 7)\\)', sign: '\\(\\le\\)', rhs: '9' },
-                      { type: 'fraction', lhsNum: '\\(3(2x + 7)\\)', lhsDen: '3', sign: '\\(\\le\\)', rhsNum: '9', rhsDen: '3', redDen: true },
-                      { type: 'step', lhs: '\\(2x + 7\\)', sign: '\\(\\le\\)', rhs: '3' },
-                      { type: 'operation', lhs: '-7', rhs: '-7' },
-                      { type: 'step', lhs: '\\(2x\\)', sign: '\\(\\le\\)', rhs: '-4' },
-                      { type: 'fraction', lhsNum: '\\(2x\\)', lhsDen: '2', sign: '\\(\\le\\)', rhsNum: '-4', rhsDen: '2', redDen: true },
-                      { type: 'step', lhs: '\\(x\\)', sign: '\\(\\le\\)', rhs: '-2' }
-                    ])}
-                  </div>
-                </div>
-              </div>
-            </div>
+    ${renderMiniWhiteboard([
+      { label: "1.", exprHtml: `\\(-3x \\le 12\\)` },
+      { label: "2.", exprHtml: `\\(\\frac{x}{-4} > 5\\)` }
+    ])}
+  `
+},
 
-            <div class="review-box">
-              <strong>Solving inequalities with fractions</strong><br>
-              Multiply both sides by the denominator to clear the fraction.
-              <div class="review-example">
-                ${renderWorkedExample([
-                  { type: 'multiply-fraction', lhsNum: '\\(x+18\\)', lhsDen: '4', sign: '\\(>\\)', rhsNum: '5', rhsDen: '1', multiplier: '4' },
-                  { type: 'step', lhs: '\\(x + 18\\)', sign: '\\(>\\)', rhs: '20' },
-                  { type: 'operation', lhs: '-18', rhs: '-18' },
-                  { type: 'step', lhs: '\\(x\\)', sign: '\\(>\\)', rhs: '2' }
-                ])}
-              </div>
-            </div>
+// NEW SLIDE 3: Mini Whiteboards (timer)
+{
+  timer: { min: 1, sec: 0 },
+  render: () => `
+    <section class="card example-card">
+      <h1>Mini Whiteboards</h1>
+      <p><strong>On your whiteboards, solve the following.</strong></p>
+    </section>
 
-            <div class="review-box">
-              <strong>Variable on both sides</strong><br>
-              Collect all \\(x\\) terms on one side, constants on the other.
-              <div class="review-example">
-                ${renderWorkedExample([
-                  { type: 'step', lhs: '\\(4x + 3\\)', sign: '\\(>\\)', rhs: '\\(2x + 11\\)' },
-                  { type: 'operation', lhs: '-2x', rhs: '-2x' },
-                  { type: 'step', lhs: '\\(2x + 3\\)', sign: '\\(>\\)', rhs: '11' },
-                  { type: 'operation', lhs: '-3', rhs: '-3' },
-                  { type: 'step', lhs: '\\(2x\\)', sign: '\\(>\\)', rhs: '8' },
-                  { type: 'fraction', lhsNum: '\\(2x\\)', lhsDen: '2', sign: '\\(>\\)', rhsNum: '8', rhsDen: '2', redDen: true },
-                  { type: 'step', lhs: '\\(x\\)', sign: '\\(>\\)', rhs: '4' }
-                ])}
-              </div>
-            </div>
+    ${renderMiniWhiteboard([
+      { label: "1.", exprHtml: `\\(-5x > 20\\)` },
+      { label: "2.", exprHtml: `\\(\\frac{x}{-4} \\le 3\\)` }
+    ])}
+  `
+},
 
-            <div class="review-box">
-              <strong>Two inequalities (compound)</strong><br>
-              Apply the same operation to all three parts simultaneously.
-              <div class="review-example">
-                ${renderWorkedExample([
-                  { type: 'compound-step', val1: '2', sign1: '\\( < \\)', val2: '\\(3x + 1\\)', sign2: '\\( \\le \\)', val3: '10' },
-                  { type: 'compound-operation', op1: '-1', op2: '-1', op3: '-1' },
-                  { type: 'compound-step', val1: '1', sign1: '\\( < \\)', val2: '\\(3x\\)', sign2: '\\( \\le \\)', val3: '9' },
-                  { type: 'compound-step', val1: '\\(\\frac{1}{\\color{red}{3}}\\)', sign1: '\\( < \\)', val2: '\\(\\frac{3x}{\\color{red}{3}}\\)', sign2: '\\( \\le \\)', val3: '\\(\\frac{9}{\\color{red}{3}}\\)' },
-                  { type: 'compound-step', val1: '\\(\\frac{1}{3}\\)', sign1: '\\( < \\)', val2: '\\(x\\)', sign2: '\\( \\le \\)', val3: '3' }
-                ], true)}
-              </div>
-            </div>
+// NEW SLIDE 4: Mini Whiteboards (timer)
+{
+  timer: { min: 1, sec: 0 },
+  render: () => `
+    <section class="card example-card">
+      <h1>Mini Whiteboards</h1>
+      <p><strong>On your whiteboards, solve the following.</strong></p>
+    </section>
 
-            <div class="apply-task">
-              <h2>Independent Apply Task</h2>
-              <p>Complete all questions on the worksheet, showing all working clearly.</p>
+    ${renderMiniWhiteboard([
+      { label: "3.", exprHtml: `\\(-4x < -12\\)` },
+      { label: "4.", exprHtml: `\\(\\frac{x}{-3} > -2\\)` }
+    ])}
+  `
+},
+
+// Slide 35: FINAL REVIEW (with new blue box added)
+{
+  timer: null,
+  render: () => `
+    <section class="review-slide">
+      <div class="review-title">📝 Core Knowledge Review - Write in your books:</div>
+
+      <div class="review-box">
+        <strong>Negatives flip the sign</strong><br>
+        If you multiply or divide both sides of an inequality by a negative number, reverse the inequality sign.
+        <div class="review-example" style="font-family: 'Times New Roman', Times, serif; font-size: 24px; margin-top: 6px;">
+          Example: \\(-2x > 6 \\Rightarrow x < -3\\)
+        </div>
+      </div>
+
+      <div class="review-box">
+        <strong>Solving inequalities</strong><br>
+        Use inverse operations to isolate the variable, just as you would with equations.
+        <div class="review-example">
+          ${renderWorkedExample([
+            { type: 'step', lhs: '\\(2x + 1\\)', sign: '\\(\\le\\)', rhs: '9' },
+            { type: 'operation', lhs: '-1', rhs: '-1' },
+            { type: 'step', lhs: '\\(2x\\)', sign: '\\(\\le\\)', rhs: '8' },
+            { type: 'fraction', lhsNum: '\\(2x\\)', lhsDen: '2', sign: '\\(\\le\\)', rhsNum: '8', rhsDen: '2', redDen: true },
+            { type: 'step', lhs: '\\(x\\)', sign: '\\(\\le\\)', rhs: '4' }
+          ])}
+        </div>
+      </div>
+
+      <div class="review-box">
+        <strong>Solving inequalities with brackets</strong><br>
+        Two methods: expand first, or divide by the coefficient of the bracket first.
+        <div class="two-methods-container">
+          <div class="method-box">
+            <div class="method-title">Method A: Expand first</div>
+            <div class="review-example">
+              ${renderWorkedExample([
+                { type: 'step', lhs: '\\(3(2x + 7)\\)', sign: '\\(\\le\\)', rhs: '9' },
+                { type: 'step', lhs: '\\(6x + 21\\)', sign: '\\(\\le\\)', rhs: '9' },
+                { type: 'operation', lhs: '-21', rhs: '-21' },
+                { type: 'step', lhs: '\\(6x\\)', sign: '\\(\\le\\)', rhs: '-12' },
+                { type: 'fraction', lhsNum: '\\(6x\\)', lhsDen: '6', sign: '\\(\\le\\)', rhsNum: '-12', rhsDen: '6', redDen: true },
+                { type: 'step', lhs: '\\(x\\)', sign: '\\(\\le\\)', rhs: '-2' }
+              ])}
             </div>
-          </section>
-        `
-      }
+          </div>
+          <div class="method-box">
+            <div class="method-title">Method B: Divide first</div>
+            <div class="review-example">
+              ${renderWorkedExample([
+                { type: 'step', lhs: '\\(3(2x + 7)\\)', sign: '\\(\\le\\)', rhs: '9' },
+                { type: 'fraction', lhsNum: '\\(3(2x + 7)\\)', lhsDen: '3', sign: '\\(\\le\\)', rhsNum: '9', rhsDen: '3', redDen: true },
+                { type: 'step', lhs: '\\(2x + 7\\)', sign: '\\(\\le\\)', rhs: '3' },
+                { type: 'operation', lhs: '-7', rhs: '-7' },
+                { type: 'step', lhs: '\\(2x\\)', sign: '\\(\\le\\)', rhs: '-4' },
+                { type: 'fraction', lhsNum: '\\(2x\\)', lhsDen: '2', sign: '\\(\\le\\)', rhsNum: '-4', rhsDen: '2', redDen: true },
+                { type: 'step', lhs: '\\(x\\)', sign: '\\(\\le\\)', rhs: '-2' }
+              ])}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-box">
+        <strong>Solving inequalities with fractions</strong><br>
+        Multiply both sides by the denominator to clear the fraction.
+        <div class="review-example">
+          ${renderWorkedExample([
+            { type: 'multiply-fraction', lhsNum: '\\(x+18\\)', lhsDen: '4', sign: '\\(>\\)', rhsNum: '5', rhsDen: '1', multiplier: '4' },
+            { type: 'step', lhs: '\\(x + 18\\)', sign: '\\(>\\)', rhs: '20' },
+            { type: 'operation', lhs: '-18', rhs: '-18' },
+            { type: 'step', lhs: '\\(x\\)', sign: '\\(>\\)', rhs: '2' }
+          ])}
+        </div>
+      </div>
+
+      <div class="review-box">
+        <strong>Variable on both sides</strong><br>
+        Collect all \\(x\\) terms on one side, constants on the other.
+        <div class="review-example">
+          ${renderWorkedExample([
+            { type: 'step', lhs: '\\(4x + 3\\)', sign: '\\(>\\)', rhs: '\\(2x + 11\\)' },
+            { type: 'operation', lhs: '-2x', rhs: '-2x' },
+            { type: 'step', lhs: '\\(2x + 3\\)', sign: '\\(>\\)', rhs: '11' },
+            { type: 'operation', lhs: '-3', rhs: '-3' },
+            { type: 'step', lhs: '\\(2x\\)', sign: '\\(>\\)', rhs: '8' },
+            { type: 'fraction', lhsNum: '\\(2x\\)', lhsDen: '2', sign: '\\(>\\)', rhsNum: '8', rhsDen: '2', redDen: true },
+            { type: 'step', lhs: '\\(x\\)', sign: '\\(>\\)', rhs: '4' }
+          ])}
+        </div>
+      </div>
+
+      <div class="review-box">
+        <strong>Two inequalities (compound)</strong><br>
+        Apply the same operation to all three parts simultaneously.
+        <div class="review-example">
+          ${renderWorkedExample([
+            { type: 'compound-step', val1: '2', sign1: '\\( < \\)', val2: '\\(3x + 1\\)', sign2: '\\( \\le \\)', val3: '10' },
+            { type: 'compound-operation', op1: '-1', op2: '-1', op3: '-1' },
+            { type: 'compound-step', val1: '1', sign1: '\\( < \\)', val2: '\\(3x\\)', sign2: '\\( \\le \\)', val3: '9' },
+            { type: 'compound-step', val1: '\\(\\frac{1}{\\color{red}{3}}\\)', sign1: '\\( < \\)', val2: '\\(\\frac{3x}{\\color{red}{3}}\\)', sign2: '\\( \\le \\)', val3: '\\(\\frac{9}{\\color{red}{3}}\\)' },
+            { type: 'compound-step', val1: '\\(\\frac{1}{3}\\)', sign1: '\\( < \\)', val2: '\\(x\\)', sign2: '\\( \\le \\)', val3: '3' }
+          ], true)}
+        </div>
+      </div>
+
+      <div class="apply-task">
+        <h2>Independent Apply Task</h2>
+        <p>Complete all questions on the worksheet, showing all working clearly.</p>
+      </div>
+    </section>
+  `
+}
     ];
 
     /* ============================================================
